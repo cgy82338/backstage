@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolfeature.mapper.YcCertificationMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolfeature.bean.YcCertification"
+		id="ycActivityMap">
+		<id column="yc_certification_id" property="yc_certification_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_certification_open"
+			property="yc_certification_open" jdbcType="INTEGER" />
+		<result column="yc_certification_verified"
+			property="yc_certification_verified" jdbcType="VARCHAR" />
+		<result column="yc_certification_certificate"
+			property="yc_certification_certificate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 添加功能 -->
+	<!-- void insert(YcCertification ycCertification) -->
+	<insert id="insert">
+		insert into
+		SCOTT.YC_CERTIFICATION(
+		yc_certification_id,
+		yc_certification_verified,
+		yc_certification_certificate
+		)values(
+		#{yc_certification_id,jdbcType=VARCHAR},
+		#{yc_certification_verified,jdbcType=VARCHAR},
+		#{yc_certification_certificate,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 根据id查询功能状态 -->
+	<!-- Integer selectById(String yc_certification_id) -->
+	<select id="selectById" resultMap="ycActivityMap">
+		select
+		yc_certification_id,
+		yc_certification_verified,
+		yc_certification_certificate
+		from
+		SCOTT.YC_CERTIFICATION
+		where
+		yc_certification_id=#{yc_certification_id}
+	</select>
+
+	<update id="update">
+		update
+		SCOTT.YC_CERTIFICATION
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_certification_verified != null">yc_certification_verified=#{yc_certification_verified},
+			</if>
+			<if test="yc_certification_certificate != null">yc_certification_certificate=#{yc_certification_certificate},
+			</if>
+		</trim>
+		where
+		yc_certification_id=#{yc_certification_id}
+	</update>
+
+</mapper>

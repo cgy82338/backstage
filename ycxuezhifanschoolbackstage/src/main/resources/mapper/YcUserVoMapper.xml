@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.activesponsor.mapper.YcUserVoMapper">
+	<resultMap type="yc.xuezhifan.schoolbackstage.activesponsor.bean.YcUserVo" id="userMap">
+         <id column="id" property="yc_admin_id" jdbcType="VARCHAR" /> 
+         <result column="yc_id" property="yc_xzf_id" jdbcType="VARCHAR" /> 
+         <result column="yc_nickname" property="yc_name" jdbcType="VARCHAR" /> 
+         <result column="yc_avatar" property="yc_avatar" jdbcType="VARCHAR" /> 
+     </resultMap>
+
+	<select id="selectById" resultMap="userMap">
+        SELECT
+            id,
+            yc_id,
+            yc_nickname,
+            yc_avatar
+        FROM
+             YC_USER
+        WHERE id=#{yc_admin_id}
+        
+    </select>
+
+</mapper>

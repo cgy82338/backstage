@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.share.mapper.YcChildParentMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.share.bean.YcChildParent"
+		id="ycChildParentMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_child_id" property="yc_child_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_status" property="yc_status"
+			jdbcType="INTEGER" />
+		<result column="yc_parent_id" property="yc_parent_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_relationship" property="yc_relationship"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 添加孩子家长关系 -->
+	<!-- Integer insertYcChildParent(YcChildParent ycChildParent) -->
+	<insert id="insertYcChildParent"
+		parameterType="yc.xuezhifan.schoolbackstage.share.bean.YcChildParent">
+		insert into YC_CHILD_PARENT (ID, YC_CHILD_ID, YC_STATUS,
+		YC_PARENT_ID, YC_RELATIONSHIP
+		)
+		values (#{id,jdbcType=VARCHAR}, #{yc_child_id,jdbcType=VARCHAR},
+		#{yc_status,jdbcType=DECIMAL},
+		#{yc_parent_id,jdbcType=VARCHAR}, #{yc_relationship,jdbcType=DECIMAL}
+		)
+	</insert>
+
+	<!-- 根据家长和孩子Id查询关系 -->
+	<!-- YcChildParent selectByChildAndParent(String yc_child_id, String yc_parent_id); -->
+	<select id="selectByChildAndParent" resultMap="ycChildParentMap">
+		select
+		ID,
+		YC_CHILD_ID,
+		YC_STATUS,
+		YC_PARENT_ID,
+		YC_RELATIONSHIP
+		from
+		YC_CHILD_PARENT
+		where
+		YC_CHILD_ID = #{yc_child_id}
+		and
+		YC_PARENT_ID = #{yc_parent_id}
+
+	</select>
+</mapper>

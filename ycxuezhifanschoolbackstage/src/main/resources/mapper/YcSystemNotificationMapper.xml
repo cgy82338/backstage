@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.notification.mapper.YcSystemNotificationMapper">
+
+    <!-- 查询全部系统通知公告 -->
+    <!-- List<YcSystemNotification> findAll() -->
+    <select id="findAll" resultType="yc.xuezhifan.schoolbackstage.notification.bean.YcSystemNotification">
+	select
+			id,
+				yc_notification_title,
+				yc_notification_name,
+				yc_notification_time,
+				yc_notification_publisher
+	from
+		YC_SYSTEM_NOTIFICATION
+	</select>
+
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.fileshared.mapper.YcFileSharedMapper">
+    <resultMap type="yc.xuezhifan.schoolbackstage.fileshared.bean.YcFileShared" id="YcFileSharedMap">
+        <id column="yc_file_shared_id" property="yc_file_shared_id" jdbcType="VARCHAR"/>
+        <result column="yc_file_shared_name" property="yc_file_shared_name" jdbcType="VARCHAR"/>
+        <result column="yc_file_shared_time" property="yc_file_shared_time" jdbcType="TIMESTAMP"/>
+        <result column="yc_file_shared_type" property="yc_file_shared_type" jdbcType="VARCHAR"/>
+        <result column="yc_file_shared_size" property="yc_file_shared_size" jdbcType="VARCHAR"/>
+        <result column="yc_user_id" property="yc_user_id" jdbcType="VARCHAR"/>
+        <result column="yc_file_shared_url" property="yc_file_shared_url" jdbcType="VARCHAR"/>
+        <result column="yc_file_shared_class" property="yc_file_shared_class" jdbcType="VARCHAR"/>
+        <result column="yc_file_shared_school" property="yc_file_shared_school" jdbcType="VARCHAR"/>
+        <result column="yc_publisher_type" property="yc_publisher_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 添加 -->
+    <!-- Integer insert(YcFileShared ycFileShared); -->
+    <insert id="insert"
+            parameterType="yc.xuezhifan.schoolbackstage.fileshared.bean.YcFileShared">
+		insert into 
+		YC_FILE_SHARED
+						(
+						yc_file_shared_id,
+						yc_file_shared_name,
+						yc_file_shared_time,
+						yc_file_shared_type,
+						yc_file_shared_size,
+						yc_user_id,
+						yc_file_shared_url,
+						yc_file_shared_class,
+						yc_file_shared_school,
+						yc_publisher_type
+						)
+				values(
+						#{yc_file_shared_id,jdbcType=VARCHAR},
+						#{yc_file_shared_name,jdbcType=VARCHAR},
+						#{yc_file_shared_time,jdbcType=TIMESTAMP},
+						#{yc_file_shared_type,jdbcType=VARCHAR},
+						#{yc_file_shared_size,jdbcType=VARCHAR},
+						#{yc_user_id,jdbcType=VARCHAR},
+						#{yc_file_shared_url,jdbcType=VARCHAR},
+						#{yc_file_shared_class,jdbcType=VARCHAR},
+						#{yc_file_shared_school,jdbcType=VARCHAR},
+						#{yc_publisher_type,jdbcType=INTEGER}
+						
+						)
+	</insert>
+
+
+    <!-- 学校获取共享文件 -->
+    <select id="findAllBySchool" resultMap="YcFileSharedMap">
+	select
+	        yc_file_shared_id,
+	        yc_file_shared_name,
+	        yc_file_shared_time,
+	        yc_file_shared_type,
+	        yc_file_shared_size,
+	        yc_user_id,
+	        yc_file_shared_url,
+	        yc_file_shared_class,
+	        yc_file_shared_school,
+	        yc_publisher_type
+	from
+	      YC_FILE_SHARED
+	where
+	      yc_file_shared_school = #{id}
+	order by        
+		  yc_file_shared_time desc
+	</select>
+
+    <!-- 学校获取共享文件条数 -->
+    <!-- long getAllFileSharedTotle(List<YcIntermediateTable> ycIntermediateTables, String yc_founder); -->
+    <select id="getAllFileSharedTotle" resultType="Integer">
+	select count(yc_file_shared_id) from (
+	
+	select 
+	        yc_file_shared_id,
+	        yc_file_shared_name,
+	        yc_file_shared_time,
+	        yc_file_shared_type,
+	        yc_file_shared_size,
+	        yc_school.yc_school_name as yc_user_id,
+	        yc_file_shared_url,
+	        yc_file_shared_class,
+	        yc_file_shared_school,
+	        yc_publisher_type
+	from
+	        YC_FILE_SHARED
+	left join yc_school on YC_FILE_SHARED.yc_file_shared_school = yc_school.id
+	where
+	        yc_file_shared_school = #{id}
+	and     yc_publisher_type = '2'
+	
+	)
+	</select>
+
+	<delete id="delFile">
+		delete from YC_FILE_SHARED where  yc_file_shared_id = #{fileId}
+	</delete>
+</mapper>

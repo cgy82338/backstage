@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.active.mapper.YcActivityMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.active.bean.YcActivity"
+		id="ycActivityMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_activity_title" property="yc_activity_title"
+			jdbcType="VARCHAR" />
+		<result column="yc_activity_sponsor"
+			property="yc_activity_sponsor" jdbcType="VARCHAR" />
+		<result column="yc_activity_time" property="yc_activity_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_activity_cover_image"
+			property="yc_activity_cover_image" jdbcType="VARCHAR" />
+		<result column="yc_activity_location"
+			property="yc_activity_location" jdbcType="VARCHAR" />
+		<result column="yc_activity_map_location"
+			property="yc_activity_map_location" jdbcType="VARCHAR" />
+		<result column="yc_activity_people_number"
+			property="yc_activity_people_number" jdbcType="INTEGER" />
+		<result column="yc_activity_single_fee"
+			property="yc_activity_single_fee" jdbcType="NUMERIC" />
+		<result column="yc_activity_registration_time"
+			property="yc_activity_registration_time" jdbcType="VARCHAR" />
+		<result column="yc_activity_deadline_time"
+			property="yc_activity_deadline_time" jdbcType="VARCHAR" />
+		<result column="yc_activity_phone" property="yc_activity_phone"
+			jdbcType="VARCHAR" />
+		<result column="yc_activity_details"
+			property="yc_activity_details" jdbcType="VARCHAR" />
+		<result column="yc_sponsor_type" property="yc_sponsor_type"
+			jdbcType="INTEGER" />
+		<result column="yc_district" property="yc_district"
+			jdbcType="VARCHAR" />
+		<result column="yc_activity_type" property="yc_activity_type"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 添加活动 -->
+	<!-- integer insertActivity(YcActivity ycActivity) -->
+	<insert id="insertActivity">
+		insert into
+		yc_activity
+		(
+		id,
+		yc_activity_title,
+		yc_activity_sponsor,
+		yc_activity_time,
+		yc_activity_cover_image,
+		yc_activity_location,
+		yc_activity_map_location,
+		yc_activity_people_number,
+		yc_activity_single_fee,
+		yc_activity_registration_time,
+		yc_activity_deadline_time,
+		yc_activity_phone,
+		yc_activity_details,
+		yc_sponsor_type,
+		yc_district,
+		yc_activity_type
+		)
+		values
+		(
+		#{id,jdbcType=VARCHAR},
+		#{yc_activity_title,jdbcType=VARCHAR},
+		#{yc_activity_sponsor,jdbcType=VARCHAR},
+		#{yc_activity_time,jdbcType=TIMESTAMP},
+		#{yc_activity_cover_image,jdbcType=VARCHAR},
+		#{yc_activity_location,jdbcType=VARCHAR},
+		#{yc_activity_map_location,jdbcType=VARCHAR},
+		#{yc_activity_people_number,jdbcType=INTEGER},
+		#{yc_activity_single_fee,jdbcType=NUMERIC},
+		#{yc_activity_registration_time,jdbcType=VARCHAR},
+		#{yc_activity_deadline_time,jdbcType=VARCHAR},
+		#{yc_activity_phone,jdbcType=VARCHAR},
+		#{yc_activity_details,jdbcType=VARCHAR},
+		#{yc_sponsor_type,jdbcType=INTEGER},
+		#{yc_district,jdbcType=VARCHAR},
+        #{yc_activity_type,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 根据id 查询 -->
+	<!-- YcActivity selectById(String id); -->
+	<select id="selectById" resultMap="ycActivityMap">
+		select
+		id,
+		yc_activity_title,
+		yc_activity_sponsor,
+		yc_activity_time,
+		yc_activity_cover_image,
+		yc_activity_location,
+		yc_activity_map_location,
+		yc_activity_people_number,
+		yc_activity_single_fee,
+		yc_activity_registration_time,
+		yc_activity_deadline_time,
+		yc_activity_phone,
+		yc_activity_details,
+		yc_sponsor_type,
+		yc_district,
+		yc_activity_type
+		from
+		yc_activity
+		where
+		id = #{id}
+	</select>
+
+	<!-- 根据发起人类型查询 -->
+	<!-- List<YcActivity> selectByType(Integer type) -->
+	<select id="selectByType" resultMap="ycActivityMap">
+		select
+		id,
+		yc_activity_title,
+		yc_activity_sponsor,
+		yc_activity_time,
+		yc_activity_cover_image,
+		yc_activity_location,
+		yc_activity_map_location,
+		yc_activity_people_number,
+		yc_activity_single_fee,
+		yc_activity_registration_time,
+		yc_activity_deadline_time,
+		yc_activity_phone,
+		yc_activity_details,
+		yc_sponsor_type,
+		yc_district,
+		yc_activity_type
+		from
+		yc_activity
+		where
+		yc_sponsor_type = #{type,jdbcType=INTEGER}
+	</select>
+
+	<!-- 查询所有活动 -->
+	<!-- List<YcActivity> findAll(String yc_school_district) -->
+	<select id="findAll" resultMap="ycActivityMap">
+		select
+		id,
+		yc_activity_title,
+		yc_activity_sponsor,
+		yc_activity_time,
+		yc_activity_cover_image,
+		yc_activity_location,
+		yc_activity_map_location,
+		yc_activity_people_number,
+		yc_activity_single_fee,
+		yc_activity_registration_time,
+		yc_activity_deadline_time,
+		yc_activity_phone,
+		yc_activity_details,
+		yc_sponsor_type,
+		yc_district,
+		yc_activity_type
+		from
+		yc_activity
+		where
+		yc_district=#{yc_school_district}
+		order by
+		yc_activity_time DESC
+	</select>
+
+	<!-- 根据标题和昵称 查询 -->
+	<!-- YcActivity selectByName(String yc_activity_title,String yc_activity_sponsor) -->
+	<select id="selectByName" resultMap="ycActivityMap">
+		select
+		id,
+		yc_activity_title,
+		yc_activity_sponsor,
+		yc_activity_time,
+		yc_activity_cover_image,
+		yc_activity_location,
+		yc_activity_map_location,
+		yc_activity_people_number,
+		yc_activity_single_fee,
+		yc_activity_registration_time,
+		yc_activity_deadline_time,
+		yc_activity_phone,
+		yc_activity_details,
+		yc_sponsor_type,
+		yc_district,
+		yc_activity_type
+		from
+		yc_activity
+		where
+		yc_activity_title=#{yc_activity_title}
+		and
+		yc_activity_sponsor=#{yc_activity_sponsor}
+		order by
+		yc_activity_time
+		DESC
+	</select>
+
+	<!-- 修改指定用户的活动 -->
+	<update id="modify">
+		update
+		yc_activity
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_activity_title != null">yc_activity_title=#{yc_activity_title},</if>
+			<if test="yc_activity_sponsor != null">yc_activity_sponsor=#{yc_activity_sponsor},</if>
+			<if test="yc_activity_time != null">yc_activity_time=#{yc_activity_time},</if>
+			<if test="yc_activity_cover_image != null">yc_activity_cover_image=#{yc_activity_cover_image},</if>
+			<if test="yc_activity_location != null">yc_activity_location=#{yc_activity_location},</if>
+			<if test="yc_activity_map_location != null">yc_activity_map_location=#{yc_activity_map_location},
+			</if>
+			<if test="yc_activity_people_number != null">yc_activity_people_number=#{yc_activity_people_number},
+			</if>
+			<if test="yc_activity_single_fee != null">yc_activity_single_fee=#{yc_activity_single_fee},</if>
+			<if test="yc_activity_registration_time != null">yc_activity_registration_time=#{yc_activity_registration_time},
+			</if>
+			<if test="yc_activity_deadline_time != null">yc_activity_deadline_time=#{yc_activity_deadline_time},
+			</if>
+			<if test="yc_activity_phone != null">yc_activity_phone=#{yc_activity_phone},</if>
+			<if test="yc_activity_details != null">yc_activity_details=#{yc_activity_details},</if>
+			<if test="yc_activity_type != null">yc_activity_type=#{yc_activity_type},</if>
+		</trim>
+		where
+		id = #{id}
+	</update>
+
+	<!-- 删除活动 -->
+	<delete id="deleteActivity">
+		delete
+		from
+		yc_activity
+		where
+		id = #{id}
+	</delete>
+
+</mapper>

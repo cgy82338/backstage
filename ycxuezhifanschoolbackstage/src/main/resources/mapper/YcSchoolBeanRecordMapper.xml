@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolbean.mapper.YcSchoolBeanRecordMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcSchoolBeanRecord"
+		id="YcWisdomBeanRecordMap">
+		<id column="yc_record_id" property="yc_record_id"
+			jdbcType="VARCHAR" />
+		<result column="change_type" property="change_type"
+			jdbcType="CHAR" />
+		<result column="change_value" property="change_value"
+			jdbcType="NUMERIC" />
+		<result column="transaction_type" property="transaction_type"
+			jdbcType="INTEGER" />
+		<result column="yc_school_id" property="yc_school_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_order_id" property="yc_order_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_lave_money"
+			property="yc_lave_money" jdbcType="NUMERIC" />
+			<result column="yc_create_time"
+			property="yc_create_time" jdbcType="TIMESTAMP" />
+		<!-- <association property="ycUser" column="yc_school_id" select="yc.xuezhifan.schoolbackstage.mapper.YcUserMapper.selectById"></association> -->
+		<association property="ycOrder" column="yc_order_id" select="yc.xuezhifan.schoolbackstage.schoolbean.mapper.YcOrderMapper.findById"></association>
+	</resultMap>
+
+	<!--保存用户智慧豆明细记录  -->
+	<insert id="save"
+		parameterType="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcSchoolBeanRecord">
+	INSERT
+	INTO
+	    YC_SCBOOL_BEAN_RECORD
+	    (
+	        YC_RECORD_ID,
+	        CHANGE_TYPE,
+	        CHANGE_VALUE,
+	        TRANSACTION_TYPE,
+	        yc_school_id,
+	        YC_ORDER_ID,
+	        YC_LAVE_MONEY,
+	        YC_CREATE_TIME
+	    )
+	    VALUES
+	    (
+	        #{yc_record_id},
+	        #{change_type},
+	        #{change_value},
+	        #{transaction_type},
+	        #{yc_school_id},
+	        #{yc_order_id},
+	        #{yc_lave_money},
+	        #{yc_create_time}
+	    )
+	</insert>
+ 	<!--查询用户智慧豆明细列表  -->
+<!--	<select id="findAll" resultMap="YcWisdomBeanRecordMap">
+		select * from (select t.*,rownum rownu from ( SELECT
+		    YC_RECORD_ID,
+		    CHANGE_TYPE,
+		    CHANGE_VALUE,
+		    TRANSACTION_TYPE,
+		    yc_school_id,
+		    YC_ORDER_ID,
+		    YC_LAVE_MONEY,
+		    YC_CREATE_TIME
+		FROM
+		    YC_SCBOOL_BEAN_RECORD
+		where 
+			yc_school_id=#{yc_school_id}
+			order by yc_create_time desc
+			) t 
+        where rownum &lt;=#{currentPage}*#{pageSize} ) tt
+        where tt.rownu>(#{currentPage}-1)*#{pageSize}
+	</select> -->
+
+</mapper>

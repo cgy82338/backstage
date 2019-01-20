@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.advertising.mapper.YcRingAdMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.advertising.bean.YcRingAd"
+		id="ycRingAdMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_headline" property="yc_headline"
+			jdbcType="VARCHAR" />
+		<result column="yc_advertising_space"
+			property="yc_advertising_space" jdbcType="VARCHAR" />
+		<result column="yc_serving_people" property="yc_serving_people"
+			jdbcType="INTEGER" />
+		<result column="yc_start_time" property="yc_start_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_end_time" property="yc_end_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_volume" property="yc_volume"
+			jdbcType="INTEGER" />
+		<result column="yc_advertising_content"
+			property="yc_advertising_content" jdbcType="VARCHAR" />
+		<result column="yc_advertising_link"
+			property="yc_advertising_link" jdbcType="VARCHAR" />
+		<result column="yc_advertising_details"
+			property="yc_advertising_details" jdbcType="VARCHAR" />
+		<result column="yc_certificate" property="yc_certificate"
+			jdbcType="VARCHAR" />
+		<result column="yc_applicat_phone" property="yc_applicat_phone"
+			jdbcType="VARCHAR" />
+		<result column="yc_price" property="yc_price"
+			jdbcType="NUMERIC" />
+		<result column="yc_advertising_district"
+			property="yc_advertising_district" jdbcType="VARCHAR" />
+		<result column="yc_advertising_status"
+			property="yc_advertising_status" jdbcType="INTEGER" />
+		<result column="yc_delete" property="yc_delete"
+			jdbcType="INTEGER" />
+		<result column="yc_applicant" property="yc_applicant"
+			jdbcType="VARCHAR" />
+		<result column="yc_applicant_type" property="yc_applicant_type"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 添加 -->
+	<!-- void insert(YcGraphicAds YcGraphicAds) -->
+	<insert id="insert">
+		insert into
+		SCOTT.YC_RING_AD(
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_serving_people,
+		yc_start_time,
+		yc_volume,
+		yc_advertising_content,
+		yc_advertising_link,
+		yc_advertising_details,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_end_time,
+		yc_applicant_type
+		)values(
+		#{id,jdbcType=VARCHAR},
+		#{yc_headline,jdbcType=VARCHAR},
+		#{yc_advertising_space,jdbcType=VARCHAR},
+		#{yc_serving_people,jdbcType=INTEGER},
+		#{yc_start_time,jdbcType=TIMESTAMP},
+		#{yc_volume,jdbcType=INTEGER},
+		#{yc_advertising_content,jdbcType=VARCHAR},
+		#{yc_advertising_link,jdbcType=VARCHAR},
+		#{yc_advertising_details,jdbcType=VARCHAR},
+		#{yc_certificate,jdbcType=VARCHAR},
+		#{yc_applicat_phone,jdbcType=VARCHAR},
+		#{yc_price,jdbcType=NUMERIC},
+		#{yc_advertising_district,jdbcType=VARCHAR},
+		#{yc_advertising_status,jdbcType=INTEGER},
+		#{yc_delete,jdbcType=INTEGER},
+		#{yc_applicant,jdbcType=VARCHAR},
+		#{yc_end_time,jdbcType=TIMESTAMP},
+		#{yc_applicant_type,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<select id="findAll" resultMap="ycRingAdMap">
+		select
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_serving_people,
+		yc_start_time,
+		yc_volume,
+		yc_advertising_content,
+		yc_advertising_link,
+		yc_advertising_details,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_end_time
+		from
+		SCOTT.YC_RING_AD
+		<where>
+			<if test="yc_headline != null">and yc_headline like
+				CONCAT(CONCAT('%',#{yc_headline}),'%')</if>
+			<if test="1 == 1">
+				and yc_applicant =#{yc_applicant}
+			</if>
+			<if test="yc_advertising_status != null">and
+				yc_advertising_status=#{yc_advertising_status}
+			</if>
+			<if test="1 == 1">and yc_delete=1</if>
+			<if test="1 == 1">and yc_applicant_type=2</if>
+		</where>
+		order by
+		yc_end_time
+		asc
+	</select>
+
+	<select id="selectById" resultMap="ycRingAdMap">
+		select
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_serving_people,
+		yc_start_time,
+		yc_volume,
+		yc_advertising_content,
+		yc_advertising_link,
+		yc_advertising_details,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_end_time
+		from
+		SCOTT.YC_RING_AD
+		where
+		id=#{id}
+		and yc_delete=1
+	</select>
+
+	<update id="update">
+		update
+		SCOTT.YC_RING_AD
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_headline != null">yc_headline=#{yc_headline},</if>
+			<if test="yc_advertising_space != null">yc_advertising_space=#{yc_advertising_space},</if>
+			<if test="yc_serving_people != null">yc_serving_people=#{yc_serving_people},</if>
+			<if test="yc_start_time != null">yc_start_time=#{yc_start_time},</if>
+			<if test="yc_volume != null">yc_volume=#{yc_volume},</if>
+			<if test="yc_advertising_content != null">yc_advertising_content=#{yc_advertising_content},</if>
+			<if test="yc_advertising_link != null">yc_advertising_link=#{yc_advertising_link},</if>
+			<if test="yc_certificate != null">yc_certificate=#{yc_certificate},</if>
+			<if test="yc_advertising_details != null">yc_advertising_details=#{yc_advertising_details},</if>
+			<if test="yc_applicat_phone != null">yc_applicat_phone=#{yc_applicat_phone},</if>
+			<if test="yc_price != null">yc_price=#{yc_price},</if>
+			<if test="yc_advertising_district != null">yc_advertising_district=#{yc_advertising_district},</if>
+			<if test="yc_advertising_status != null">yc_advertising_status=#{yc_advertising_status},</if>
+			<if test="yc_delete != null">yc_delete=#{yc_delete},</if>
+			<if test="yc_applicant != null">yc_applicant=#{yc_applicant},</if>
+			<if test="yc_end_time != null">yc_end_time=#{yc_end_time},</if>
+		</trim>
+		where
+		id=#{id}
+	</update>
+
+	<select id="selectBySpace" resultMap="ycRingAdMap">
+		select
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_serving_people,
+		yc_start_time,
+		yc_volume,
+		yc_advertising_content,
+		yc_advertising_link,
+		yc_advertising_details,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_end_time
+		from
+		(select
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_serving_people,
+		yc_start_time,
+		yc_volume,
+		yc_advertising_content,
+		yc_advertising_link,
+		yc_advertising_details,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_end_time
+		from
+		SCOTT.YC_RING_AD
+		where
+		yc_advertising_space=#{yc_advertising_space}
+		and
+		yc_delete=1
+		and
+		yc_advertising_status!=3
+		order by
+		yc_end_time
+		desc)
+		where
+		rownum=1
+	</select>
+
+</mapper>

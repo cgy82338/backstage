@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>发布文件</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="/style/admin.css" media="all"/>
+    <link rel="stylesheet" href="/fileShared/upload.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">发布文件</div>
+        <div class="layui-card-body" style="padding: 15px;">
+
+            <form class="layui-form" action="" lay-filter="component-form-group">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文件名称<a style="color: red;">*</a>：
+                    </label>
+                    <div class="layui-input-inline" style="width: 800px">
+                        <input type="text" name="yc_file_shared_name" lay-verify="required"
+                               autocomplete="off" class="layui-input" maxlength="20" placeholder="请输入不超过20个字符">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">文件上传<a
+                                style="color: red;">*</a>：
+                        </label>
+                        <div class="layui-input-block">
+                            <div class="layui-card">
+
+                                <div class="layui-card-body">
+
+                                    <h4>您所选择的文件：</h4>
+                                    <div id="ossfile">你的浏览器不支持flash,Silverlight或者HTML5！</div>
+                                    <br/>
+
+
+                                    <div id="container">
+                                        <a id="selectfiles" href="javascript:void(0);"
+                                           class="layui-btn" style="float: left;">选择文件</a>
+                                        <a id="postfiles" href="javascript:void(0);" class="layui-btn"
+                                           style="float: left;">开始上传</a>
+                                        <input type="text"  name="yc_file_shared_url" id="file_url"  th:hidden="true" required/>
+                                        <input  type="text" name="yc_file_shared_type" id="file_type" th:hidden="true">
+                                        <input type="text" name="yc_file_shared_size" id="file_size" th:hidden="true">
+                                        <!-- th:hidden="true" -->
+                                    </div>
+
+
+                                    <p>&nbsp;</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-layout-admin">
+                    <div class="layui-input-block">
+                        <div class="layui-footer"
+                             style="left: 0; background-color: #DFDDDD;">
+                            <button class="layui-btn" lay-submit=""
+                                    lay-filter="fileShared_add">提交信息
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/layui/layui.js"></script>
+<script src="/fileShared/fileShared_add.js"></script>
+<script src="/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script src="/fileShared/upload.js"></script>
+</body>
+</html>

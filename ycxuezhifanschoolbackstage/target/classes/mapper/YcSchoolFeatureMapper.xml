@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolfeature.mapper.YcSchoolFeatureMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolfeature.bean.YcSchoolFeature"
+		id="ycchoolFeatureMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_school_feature_name"
+			property="yc_school_feature_name" jdbcType="VARCHAR" />
+		<result column="yc_school_feature_price"
+			property="yc_school_feature_price" jdbcType="NUMERIC" />
+		<result column="yc_school_feature_commission"
+			property="yc_school_feature_commission" jdbcType="INTEGER" />
+		<result column="yc_school_feature_icon"
+			property="yc_school_feature_icon" jdbcType="VARCHAR" />
+		<result column="yc_school_feature_description"
+			property="yc_school_feature_description" jdbcType="VARCHAR" />
+		<result column="yc_school_feature_link"
+			property="yc_school_feature_link" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 查询所有功能 -->
+	<!-- List<YcSchoolFeature> findAll() -->
+	<select id="findAll" resultMap="ycchoolFeatureMap">
+		select
+		id,
+		yc_school_feature_name,
+		yc_school_feature_price,
+		yc_school_feature_icon,
+		yc_school_feature_description,
+		yc_school_feature_link
+		from
+		SCOTT.YC_SCHOOL_FEATURE
+	</select>
+
+</mapper>

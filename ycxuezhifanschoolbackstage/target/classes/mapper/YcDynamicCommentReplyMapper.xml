@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolcircle.mapper.YcDynamicCommentReplyMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolcircle.bean.YcDynamicCommentReply"
+		id="ycDynamicCommentReplyMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_dynamic_comment_id"
+			property="yc_dynamic_comment_id" jdbcType="VARCHAR" />
+		<result column="yc_respondent_id" property="yc_respondent_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_respondent_content"
+			property="yc_respondent_content" jdbcType="VARCHAR" />
+		<result column="yc_reply_time" property="yc_reply_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_reply_content" property="yc_reply_content"
+			jdbcType="VARCHAR" />
+			<result column="yc_user_id" property="yc_user_id"
+            jdbcType="VARCHAR" />
+		<association property="replyUser" column="yc_user_id"
+            select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association>
+        <association property="ycUser" column="yc_respondent_id"
+        select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association>
+	</resultMap>
+
+	<!-- 查询所评论回复 -->
+	<!-- List<YcDynamicCommentReply> selectById(String yc_dynamic_comment_id); -->
+	<select id="selectById" resultMap="ycDynamicCommentReplyMap">
+		select
+		id,
+		yc_dynamic_comment_id,
+		yc_respondent_id,
+		yc_respondent_content,
+		yc_reply_time,
+		yc_reply_content,
+		yc_user_id
+		from
+		SCOTT.YC_DYNAMIC_COMMENT_REPLY
+		where
+		yc_dynamic_comment_id=#{yc_dynamic_comment_id}
+		order by
+		yc_reply_time
+		desc
+	</select>
+
+	<!-- List<YcDynamicCommentReply> selectByReply(String yc_reply_content); -->
+	<select id="selectByReply" resultMap="ycDynamicCommentReplyMap">
+		select
+		id,
+		yc_dynamic_comment_id,
+		yc_respondent_id,
+		yc_respondent_content,
+		yc_reply_time,
+		yc_reply_content,
+		yc_user_id
+		from
+		SCOTT.YC_DYNAMIC_COMMENT_REPLY
+		where
+		yc_reply_content=#{yc_reply_content}
+		order by
+		yc_reply_time desc
+	</select>
+
+	<delete id="deleteByDynamic">
+		delete from
+		SCOTT.YC_DYNAMIC_COMMENT_REPLY
+		where
+		yc_dynamic_comment_id in
+		<foreach collection="yc_dynamic_comment_id" item="item"
+			index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+
+	</delete>
+</mapper>

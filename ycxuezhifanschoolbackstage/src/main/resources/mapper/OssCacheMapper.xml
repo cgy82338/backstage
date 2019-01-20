@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.oss.mapper.OssCacheMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.oss.bean.OssCacheBean" id="ossCacheBeanMap"> 
+		<id column="id" property="id" jdbcType="VARCHAR" /> 
+		 <result column="yc_url" property="yc_url" jdbcType="VARCHAR" /> 
+	 </resultMap> 
+	 
+	 <insert id="saveOssCache">
+	 	INSERT
+		INTO
+		    SCOTT.YC_DB_OSS_CACHE_URL
+		    (
+		        ID,
+		        YC_URL,
+		        YC_CREATE_DATE
+		    )
+		    VALUES
+		    (
+		        #{id},
+		        #{url},
+	 			#{yc_create_date,jdbcType=TIMESTAMP}
+		    )
+	 </insert>
+	 
+	<!--  根据url删除oss缓存表 -->
+	<!-- Integer deleteOssCache(@Param("url") String url); -->
+	<delete id="deleteOssCache">
+		delete
+		from
+		YC_DB_OSS_CACHE_URL
+		where
+		yc_url = #{url}
+	</delete>
+
+	
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolfeature.mapper.YcSchoolFeatureStatusMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolfeature.bean.YcSchoolFeatureStatus"
+		id="ycchoolStatusMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_school_id" property="yc_school_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_feature_id" property="yc_feature_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_feature_status" property="yc_feature_status"
+			jdbcType="INTEGER" />
+		<result column="yc_feature_open_time"
+			property="yc_feature_open_time" jdbcType="TIMESTAMP" />
+		<result column="yc_customer_service_id"
+			property="yc_customer_service_id" jdbcType="VARCHAR" />
+		<result column="yc_certification_id"
+			property="yc_certification_id" jdbcType="VARCHAR" />
+		<association property="ycCertification"
+			column="yc_certification_id"
+			select="yc.xuezhifan.schoolbackstage.schoolfeature.mapper.YcCertificationMapper.selectById"></association>
+		<association property="ycCustomerService"
+			column="yc_customer_service_id"
+			select="yc.xuezhifan.schoolbackstage.schoolfeature.mapper.YcCustomerServiceMapper.selectById"></association>
+	</resultMap>
+
+	<!-- 添加 -->
+	<!-- void insert(YcSchoolFeatureStatus ycSchoolFeatureStatus) -->
+	<insert id="insert">
+		insert into
+		SCOTT.YC_SCHOOL_FEATURE_STATUS(
+		id,
+		yc_school_id,
+		yc_feature_id,
+		yc_feature_status,
+		yc_feature_open_time,
+		yc_customer_service_id,
+		yc_certification_id
+		)values(
+		#{id,jdbcType=VARCHAR},
+		#{yc_school_id,jdbcType=VARCHAR},
+		#{yc_feature_id,jdbcType=VARCHAR},
+		2,
+		#{yc_feature_open_time,jdbcType=TIMESTAMP},
+		#{yc_customer_service_id,jdbcType=VARCHAR},
+		#{yc_certification_id,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- Integer update(YcSchoolFeatureStatus ycSchoolFeatureStatus) -->
+	<update id="update">
+		update
+		SCOTT.YC_SCHOOL_FEATURE_STATUS
+		<trim suffix="set" suffixOverrides=",">
+			<if test="yc_feature_status != null">yc_feature_status=#{yc_feature_status},</if>
+			<if test="yc_feature_open_time != null">yc_feature_open_time=#{yc_feature_open_time},</if>
+			<if test="yc_customer_service_id != null">yc_customer_service_id=#{yc_customer_service_id},</if>
+			<if test="yc_certification_id != null">yc_certification_id=#{yc_certification_id},</if>
+		</trim>
+		where
+		id=#{id}
+	</update>
+
+	<select id="selectBySchool" resultMap="ycchoolStatusMap">
+		select
+		id,
+		yc_school_id,
+		yc_feature_id,
+		yc_feature_status,
+		yc_feature_open_time,
+		yc_customer_service_id,
+		yc_certification_id
+		from
+		SCOTT.YC_SCHOOL_FEATURE_STATUS
+		where
+		yc_school_id=#{yc_school_id}
+		and
+		yc_feature_status=2
+	</select>
+
+</mapper>

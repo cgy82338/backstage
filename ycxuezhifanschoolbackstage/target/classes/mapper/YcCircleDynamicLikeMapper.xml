@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.schoolcircle.mapper.YcCircleDynamicLikeMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.schoolcircle.bean.YcCircleDynamicLike" id="ycLikeMap"> 
+		 <id column="id" property="id" jdbcType="VARCHAR" /> 
+		 <result column="yc_circle_dynamic_id" property="yc_circle_dynamic_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_like_id" property="yc_like_id" jdbcType="VARCHAR" /> 
+         <result column="yc_like_time" property="yc_like_time" jdbcType="TIMESTAMP" /> 
+         <association property="ycUser"
+            column="yc_like_id"
+            select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association>
+	 </resultMap> 
+	
+	<!-- YcCircleDynamicLike getLikeByDynamicId(String yc_circle_dynamic_id); -->
+	<select id="getLikeByDynamicId" resultMap="ycLikeMap">
+	    select
+	       id,
+           yc_like_id,
+           yc_circle_dynamic_id,
+           yc_like_time
+        from
+           SCOTT.YC_CIRCLE_DYNAMIC_LIKE
+        where
+           yc_circle_dynamic_id=#{yc_circle_dynamic_id} 
+        order by
+           yc_like_time desc  
+	</select>
+	
+	<!-- void deleteByDynamic(String yc_circle_dynamic_id); -->
+	<delete id="deleteByDynamic">
+	    delete from 
+	        SCOTT.YC_CIRCLE_DYNAMIC_LIKE
+	    where
+	        yc_circle_dynamic_id=#{yc_circle_dynamic_id}
+	</delete>
+</mapper>

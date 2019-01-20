@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>账号资料</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/style/admin.css" media="all">
+    <link rel="stylesheet" href="/style/template.css" media="all">
+    <link rel="stylesheet" href="/style/login.css" media="all">
+    <link rel="stylesheet" href="/layui_exit/css/city_picker.css">
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <ul class="layui-tab-title">
+            <li><h2>账号信息</h2></li>
+            <li> <a href="#" data-type="data" class="layui-icon layui-icon-edit"
+                    style="font-size: 30px; color: #8D8D8D;"></a></li>
+        </ul>
+        <form class="layui-form" action="" lay-filter="component-form-group">
+            <div class="layui-card-body" style="padding: 15px;">
+                <table class="table">
+                    <tr>
+                        <td height="50px">
+                            <label class="layui-form-label"><font size="3">头像</font></label>
+                        </td>
+                        <td width="150px"></td>
+                        <td width="220px">
+                            <img id="schoolimg" class="layadmin-homepage-pad-img" th:src="${school.yc_school_avatar}" width="66"
+                                 height="66">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50px">
+                            <label class="layui-form-label"><font size="3">学校名称</font></label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div th:text="${school.yc_school_name}" id="schoolname"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50px">
+                            <label class="layui-form-label"><font size="3">小帆号</font><i
+                                    class="layui-icon layui-icon-about"></i> </label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div th:text="${school.yc_school_id}"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <ul class="layui-tab-title">
+            <li><h2>账号所有人资料</h2></li>
+            <li> <a href="#" data-type="dataAll" class="layui-icon layui-icon-edit"
+                    style="font-size: 30px; color: #8D8D8D;"></a></li>
+        </ul>
+        <form class="layui-form" action="" lay-filter="component-form-group">
+            <div class="layui-card-body" style="padding: 15px;">
+                <table class="table">
+                    <tr>
+                        <td height="50px">
+                            <label class="layui-form-label"><font size="3">姓名</font></label>
+                        </td>
+                        <td width="150px"></td>
+                        <td width="220px">
+                            <div th:text="${school.yc_school_principal}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50px">
+                            <label class="layui-form-label"><font size="3">手机号</font></label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <div th:text="${school.yc_school_principal_phone}" id="yc_school_phone"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="50px">
+                            <label class="layui-form-label"><font size="3">地址</font></label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <input id="district" type="text" th:value="${school.yc_district}" th:hidden="true">
+                            <div id="address"></div>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/layui/layui.js"></script>
+<script src="/school_information/school_information_data.js"></script>
+<script src="/layui_exit/js/city_picker.data.js"></script>
+</body>
+</html>

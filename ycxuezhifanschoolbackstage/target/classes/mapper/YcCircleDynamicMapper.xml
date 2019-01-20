@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolcircle.mapper.YcCircleDynamicMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolcircle.bean.YcCircleDynamic"
+		id="ycLikeMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_school_id" property="yc_school_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_class_id" property="yc_class_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_user_id" property="yc_user_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_publisher_name" property="yc_publisher_name"
+			jdbcType="VARCHAR" />
+		<result column="yc_publisher_avatar"
+			property="yc_publisher_avatar" jdbcType="VARCHAR" />
+		<result column="yc_circle_dynamic_type"
+			property="yc_circle_dynamic_type" jdbcType="INTEGER" />
+		<result column="yc_circle_dynamic_content"
+			property="yc_circle_dynamic_content" jdbcType="VARCHAR" />
+		<result column="yc_release_time" property="yc_release_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_dynamic_video" property="yc_dynamic_video"
+			jdbcType="VARCHAR" />
+		<result column="yc_dynamic_image" property="yc_dynamic_image"
+			jdbcType="VARCHAR" />
+		<result column="yc_circle_dynamic_status"
+			property="yc_circle_dynamic_status" jdbcType="INTEGER" />
+		<association property="ycUser" column="yc_user_id"
+			select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association>
+		<collection property="ycCircleDynamicLikes" column="id"
+			select="yc.xuezhifan.schoolbackstage.schoolcircle.mapper.YcCircleDynamicLikeMapper.getLikeByDynamicId"></collection>
+		<collection property="ycDynamicComments" column="id"
+			select="yc.xuezhifan.schoolbackstage.schoolcircle.mapper.YcDynamicCommentMapper.findByDynamicId"></collection>
+	</resultMap>
+
+	<!-- List<YcCircleDynamicLike> selectBySchool(String yc_school_id) -->
+	<select id="selectBySchool" resultMap="ycLikeMap">
+		select * from (select
+		t.*,rownum rownu from (select * from
+		SCOTT.YC_CIRCLE_DYNAMIC
+		where
+		yc_school_id =
+		#{yc_school_id}
+		and
+		yc_circle_dynamic_type != 2
+		and
+		yc_circle_dynamic_status=1
+		order by
+		yc_release_time desc) t
+		where rownum
+		&lt;=#{currentPage}*#{pageSize} ) tt
+		where
+		tt.rownu>(#{currentPage}-1)*#{pageSize}
+
+	</select>
+
+	<!-- void delete(String id) -->
+	<delete id="delete">
+		delete from
+		SCOTT.YC_CIRCLE_DYNAMIC
+		where
+		id=#{id}
+	</delete>
+
+	<!-- YcCircleDynamic seletById(String id); -->
+	<select id="seletById" resultMap="ycLikeMap">
+		select
+		id,
+		yc_school_id,
+		yc_class_id,
+		yc_user_id,
+		yc_circle_dynamic_type,
+		yc_circle_dynamic_content,
+		yc_release_time,
+		yc_dynamic_video,
+		yc_dynamic_image
+		from
+		SCOTT.YC_CIRCLE_DYNAMIC
+		where
+		id=#{id}
+		and
+		yc_circle_dynamic_status=1
+	</select>
+
+</mapper>

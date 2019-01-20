@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolbean.mapper.YcSchoolBeanMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcSchoolBean"
+		id="YcSchoolBeanMap">
+		<id column="yc_wisdom_beans_id" property="yc_wisdom_beans_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_school_id" property="yc_school_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_wisdom_beans" property="yc_wisdom_beans"
+			jdbcType="NUMERIC" />
+		<result column="yc_disable_beans" property="yc_disable_beans"
+			jdbcType="NUMERIC" />
+		<association property="ycSchool" column="yc_school_id" select="yc.xuezhifan.schoolbackstage.schoolbean.mapper.YcSchoolMapper.selectById"></association>
+	</resultMap>
+	<resultMap
+			type="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcSchoolBean"
+			id="schoolBeansMap">
+			<id column="yc_wisdom_beans_id" property="yc_wisdom_beans_id"
+				jdbcType="VARCHAR" />
+			<result column="yc_school_id" property="yc_school_id"
+				jdbcType="VARCHAR" />
+			<result column="yc_wisdom_beans" property="yc_wisdom_beans"
+				jdbcType="NUMERIC" />
+			<result column="yc_disable_beans" property="yc_disable_beans"
+				jdbcType="NUMERIC" />
+		</resultMap>
+	<!-- 添加视频明细 -->
+	<!-- void insert(YcSchoolBean YcSchoolBean) -->
+	<insert id="save"
+		parameterType="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcSchoolBean">
+		INSERT
+		INTO
+		    YC_SCBOOL_BEAN
+		    (
+		        YC_WISDOM_BEANS_ID,
+		        YC_WISDOM_BEANS,
+		        YC_DISABLE_BEANS,
+		        yc_school_id
+		    )
+		    VALUES
+		    (
+		        #{yc_wisdom_beans_id,jdbcType=VARCHAR},
+		        #{yc_wisdom_beans,jdbcType=NUMERIC},
+		        #{yc_disable_beans,jdbcType=NUMERIC},
+		        #{yc_school_id,jdbcType=VARCHAR}
+		    )
+	</insert>
+	<!--根据用户id 查询用户智慧豆信息  -->
+	<select id="findBeanBySchoolId" resultMap="schoolBeansMap">
+		SELECT
+		    YC_WISDOM_BEANS_ID,
+		    YC_WISDOM_BEANS,
+		    YC_DISABLE_BEANS,
+		    yc_school_id
+		FROM
+		    YC_SCBOOL_BEAN
+		where
+			yc_school_id=#{id}
+	</select>
+
+	<update id="modify">
+		UPDATE
+		    YC_SCBOOL_BEAN
+		 <trim prefix="set" suffixOverrides=",">
+		    <if test="yc_wisdom_beans != null">yc_wisdom_beans=#{yc_wisdom_beans},</if>
+			<if test="yc_disable_beans != null">yc_disable_beans=#{yc_disable_beans},</if>
+		    </trim>
+		WHERE
+		    YC_WISDOM_BEANS_ID = #{yc_wisdom_beans_id}
+	</update>
+	
+	<select id="findBeanById" resultMap="schoolBeansMap">
+	SELECT
+            YC_WISDOM_BEANS_ID,
+            YC_WISDOM_BEANS,
+            YC_DISABLE_BEANS,
+            yc_school_id
+        FROM
+            YC_SCBOOL_BEAN
+        where
+        YC_WISDOM_BEANS_ID=#{yc_school_id}
+	</select>
+
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schooldynamics.mapper.YcSchoolDynamicsMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schooldynamics.bean.YcSchoolDynamics"
+		id="ycSchoolDynamicsMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_school_dynamics_title"
+			property="yc_school_dynamics_title" jdbcType="VARCHAR" />
+		<result column="yc_school_dynamics_subtitle"
+			property="yc_school_dynamics_subtitle" jdbcType="VARCHAR" />
+		<result column="yc_school_dynamics_time"
+			property="yc_school_dynamics_time" jdbcType="TIMESTAMP" />
+		<result column="yc_school_dynamics_title_image"
+			property="yc_school_dynamics_title_image" jdbcType="VARCHAR" />
+		<result column="yc_school_dynamics_detail"
+			property="yc_school_dynamics_detail" jdbcType="VARCHAR" />
+		<result column="yc_school_dynamics_school"
+			property="yc_school_dynamics_school" jdbcType="VARCHAR" />
+		<result column="yc_school_dynamics_type"
+				property="yc_school_dynamics_type" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 添加 -->
+	<!-- void insert(YcSchoolDynamics ycSchoolDynamics) -->
+	<insert id="insert">
+		insert into
+		YC_SCHOOL_DYNAMICS(
+		id,
+		yc_school_dynamics_title,
+		yc_school_dynamics_subtitle,
+		yc_school_dynamics_time,
+		yc_school_dynamics_title_image,
+		yc_school_dynamics_detail,
+		yc_school_dynamics_school,
+		yc_school_dynamics_type
+		)values(
+		#{id,jdbcType=VARCHAR},
+		#{yc_school_dynamics_title,jdbcType=VARCHAR},
+		#{yc_school_dynamics_subtitle,jdbcType=VARCHAR},
+		#{yc_school_dynamics_time,jdbcType=TIMESTAMP},
+		#{yc_school_dynamics_title_image,jdbcType=VARCHAR},
+		#{yc_school_dynamics_detail,jdbcType=VARCHAR},
+		#{yc_school_dynamics_school,jdbcType=VARCHAR},
+		#{yc_school_dynamics_type,jdbcType=INTEGER}
+
+		)
+	</insert>
+
+	<select id="findBySchool" resultMap="ycSchoolDynamicsMap">
+		select
+		id,
+		yc_school_dynamics_title,
+		yc_school_dynamics_subtitle,
+		yc_school_dynamics_time,
+		yc_school_dynamics_title_image,
+		yc_school_dynamics_detail,
+		yc_school_dynamics_school,
+		yc_school_dynamics_type
+		from
+		YC_SCHOOL_DYNAMICS
+		where
+		yc_school_dynamics_school=#{yc_school_dynamics_school}
+	</select>
+
+	<select id="selectById" resultMap="ycSchoolDynamicsMap">
+		select
+		id,
+		yc_school_dynamics_title,
+		yc_school_dynamics_subtitle,
+		yc_school_dynamics_time,
+		yc_school_dynamics_title_image,
+		yc_school_dynamics_detail,
+		yc_school_dynamics_school,
+		yc_school_dynamics_type
+		from
+		YC_SCHOOL_DYNAMICS
+		where
+		id=#{id}
+		and
+		yc_school_dynamics_school=#{yc_school_dynamics_school}
+	</select>
+
+	<delete id="delete">
+		delete from
+		YC_SCHOOL_DYNAMICS
+		where
+		id=#{id}
+		and 
+		yc_school_dynamics_school=#{yc_school_dynamics_school}
+	</delete>
+
+</mapper>

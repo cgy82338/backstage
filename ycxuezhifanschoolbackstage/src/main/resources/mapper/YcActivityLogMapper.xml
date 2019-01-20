@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.active.mapper.YcActivityLogMapper">
+	<!-- 添加活动报名日志 -->
+	<!-- void insertLog(YcActivityLog ycActivityLog) -->
+	<insert id="insertLog">
+		insert into
+		yc_activity_Log(
+		yc_activity_log_id,
+		yc_activity_id,
+		yc_user_id,
+		yc_browse_time,
+		yc_ip,
+		yc_admin_id,
+		yc_log_remark
+		)values(
+		#{yc_activity_log_id,jdbcType=VARCHAR},
+		#{yc_activity_id,jdbcType=VARCHAR},
+		#{yc_user_id,jdbcType=VARCHAR},
+		#{yc_browse_time,jdbcType=TIMESTAMP},
+		#{yc_ip,jdbcType=VARCHAR},
+		#{yc_admin_id,jdbcType=VARCHAR},
+        #{yc_log_remark,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.advertising.space.mapper.YcAdvertisingSpaceMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.advertising.space.bean.YcAdvertisingSpace"
+		id="ycAdvertisingMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_advertising_number"
+			property="yc_advertising_number" jdbcType="INTEGER" />
+		<result column="yc_advertising_name"
+			property="yc_advertising_name" jdbcType="VARCHAR" />
+		<result column="yc_advertising_height"
+			property="yc_advertising_height" jdbcType="INTEGER" />
+		<result column="yc_advertising_space"
+			property="yc_advertising_space" jdbcType="INTEGER" />
+		<result column="yc_advertising_type"
+			property="yc_advertising_type" jdbcType="INTEGER" />
+		<result column="yc_advertising_count"
+			property="yc_advertising_count" jdbcType="INTEGER" />
+		<result column="yc_advertising_creator"
+			property="yc_advertising_creator" jdbcType="VARCHAR" />
+		<result column="yc_advertising_time"
+			property="yc_advertising_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<!-- YcAdvertisingSpace selectById(String id) -->
+	<select id="selectById" resultMap="ycAdvertisingMap">
+		select
+		id,
+		yc_advertising_number,
+		yc_advertising_name,
+		yc_advertising_height,
+		yc_advertising_space,
+		yc_advertising_type,
+		yc_advertising_count,
+		yc_advertising_creator,
+		yc_advertising_time
+		from
+		SCOTT.YC_ADVERTISING_SPACE
+		where
+		id=#{id}
+	</select>
+
+
+</mapper>

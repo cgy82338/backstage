@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.schoolbean.mapper.YcOrderMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcOrder" id="ycOrderMap"> 
+		 <id column="yc_order_id" property="yc_order_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_order_type" property="yc_order_type" jdbcType="INTEGER" /> 
+		 <result column="yc_order_transaction_type" property="yc_order_transaction_type" jdbcType="INTEGER" /> 
+		 <result column="yc_order_payment_method" property="yc_order_payment_method" jdbcType="INTEGER" /> 
+		 <result column="yc_order_user_type" property="yc_order_user_type" jdbcType="INTEGER" /> 
+		 <result column="yc_payment_amount" property="yc_payment_amount" jdbcType="NUMERIC" /> 
+		 <result column="yc_order_detail_id" property="yc_order_detail_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_user_id" property="yc_user_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_school_id" property="yc_school_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_agent_id" property="yc_agent_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_create_time" property="yc_create_time" jdbcType="TIMESTAMP" /> 
+		 <result column="yc_complete_time" property="yc_complete_time" jdbcType="TIMESTAMP" /> 
+		 <result column="yc_order_status" property="yc_order_status" jdbcType="INTEGER" /> 
+		 <result column="yc_alipay_name" property="yc_alipay_name" jdbcType="VARCHAR"/>
+		 <result column="yc_wx_openid" property="yc_wx_openid" jdbcType="VARCHAR"/>
+		 <association property="ycUser" column="yc_user_id" select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association>
+		 <association property="ycVideoDetails" column="yc_order_detail_id" select="yc.xuezhifan.schoolbackstage.schoolbean.mapper.YcVideoDetailsMapper.selectById"></association>
+	 </resultMap> 
+	
+	<!-- 添加订单 -->
+	<!-- void insertYcOrder(YcOrder ycOrder) -->
+	<insert id="save" 
+		parameterType="yc.xuezhifan.schoolbackstage.schoolbean.bean.YcOrder">
+		INSERT
+		INTO
+		    YC_ORDER
+		    (
+		        YC_ORDER_ID,
+		        YC_ORDER_TYPE,
+		        YC_ORDER_TRANSACTION_TYPE,
+		        YC_ORDER_PAYMENT_METHOD,
+		        YC_ORDER_USER_TYPE,
+		        YC_PAYMENT_AMOUNT,
+		        YC_ORDER_DETAIL_ID,
+		        YC_USER_ID,
+		        YC_SCHOOL_ID,
+		        YC_AGENT_ID,
+		        YC_CREATE_TIME,
+		        YC_COMPLETE_TIME,
+		        YC_ORDER_STATUS,
+		        yc_alipay_name,
+		        yc_wx_openid
+		    )
+		    VALUES
+		    (
+		        #{yc_order_id,jdbcType=VARCHAR},
+		        #{yc_order_type,jdbcType=INTEGER},
+		        #{yc_order_transaction_type,jdbcType=INTEGER},
+		        #{yc_order_payment_method,jdbcType=INTEGER},
+		        #{yc_order_user_type,jdbcType=INTEGER},
+		        #{yc_payment_amount,jdbcType=NUMERIC},
+		        #{yc_order_detail_id,jdbcType=VARCHAR},
+		        #{yc_user_id,jdbcType=VARCHAR},
+		        #{yc_school_id,jdbcType=VARCHAR},
+		        #{yc_agent_id,jdbcType=VARCHAR},
+		        #{yc_create_time,jdbcType=TIMESTAMP},
+		        #{yc_complete_time,jdbcType=TIMESTAMP},
+		        #{yc_order_status,jdbcType=INTEGER},
+		        #{yc_alipay_name,jdbcType=VARCHAR},
+		        #{yc_wx_openid,jdbcType=VARCHAR}
+		    )
+	</insert>
+	
+	<!-- 查询所有订单 -->
+	<!-- List<YcOrder> findAll() -->
+	<select id="findByDate" resultMap="ycOrderMap">
+		SELECT
+		    YC_ORDER_ID,
+		    YC_ORDER_TYPE,
+		    YC_ORDER_TRANSACTION_TYPE,
+		    YC_ORDER_PAYMENT_METHOD,
+		    YC_ORDER_USER_TYPE,
+		    YC_PAYMENT_AMOUNT,
+		    YC_ORDER_DETAIL_ID,
+		    YC_USER_ID,
+		    YC_SCHOOL_ID,
+		    YC_AGENT_ID,
+		    YC_CREATE_TIME,
+		    YC_COMPLETE_TIME,
+		    YC_ORDER_STATUS,
+		    YC_ALIPAY_NAME,
+		    yc_wx_openid
+		FROM
+		    YC_ORDER
+		where
+			 yc_create_time >= #{date}  and yc_create_time &lt; sysdate
+			and YC_ORDER_TYPE in
+			<foreach collection="types" item="val" index="types" separator="," open="(" close=")">
+			#{val}
+		</foreach>
+			order By YC_COMPLETE_TIME desc
+	</select>
+	<select id="findBySchoolId" resultMap="ycOrderMap">
+	
+	</select>
+	<select id="findOrderByOrderId" resultMap="ycOrderMap">
+		select YC_ORDER_ID,
+		    YC_ORDER_TYPE,
+		    YC_ORDER_TRANSACTION_TYPE,
+		    YC_ORDER_PAYMENT_METHOD,
+		    YC_ORDER_USER_TYPE,
+		    YC_PAYMENT_AMOUNT,
+		    YC_ORDER_DETAIL_ID,
+		    YC_USER_ID,
+		    YC_SCHOOL_ID,
+		    YC_AGENT_ID,
+		    YC_CREATE_TIME,
+		    YC_COMPLETE_TIME,
+		    YC_ORDER_STATUS,
+		    YC_ALIPAY_NAME,
+		    yc_wx_openid
+		FROM
+		    YC_ORDER
+		where 
+		YC_ORDER_ID = #{yc_order_id}
+	</select>
+	<!-- 根据条件查询订单信息 -->
+	<select id="findOrderByParam" resultMap="ycOrderMap">
+	
+		select * from (select t.*,rownum rownu from (SELECT
+		    YC_ORDER_ID,
+		    YC_ORDER_TYPE,
+		    YC_ORDER_TRANSACTION_TYPE,
+		    YC_ORDER_PAYMENT_METHOD,
+		    YC_ORDER_USER_TYPE,
+		    YC_PAYMENT_AMOUNT,
+		    YC_ORDER_DETAIL_ID,
+		    YC_USER_ID,
+		    YC_SCHOOL_ID,
+		    YC_AGENT_ID,
+		    YC_CREATE_TIME,
+		    YC_COMPLETE_TIME,
+		    YC_ORDER_STATUS,
+		    YC_ALIPAY_NAME,
+		    yc_wx_openid
+		FROM
+		    YC_ORDER
+		<where>
+			 yc_user_id=#{ycOrder.yc_user_id}
+			
+			<if test="ycOrder.yc_order_type != null">
+				and yc_order_type=#{ycOrder.yc_order_type}
+			</if>
+			<if test="ycOrder.yc_order_payment_method != null">
+				and yc_order_payment_method=#{ycOrder.yc_order_payment_method}
+			</if>
+			<if test="ycOrder.yc_order_status != null">
+				and yc_order_status=#{ycOrder.yc_order_status}
+			</if>
+		</where>
+			order By YC_CREATE_TIME desc
+			) t 
+        where rownum &lt;=#{currentPage}*#{pageSize} ) tt
+        where tt.rownu>(#{currentPage}-1)*#{pageSize}
+	</select>
+	<!-- 修改订单状态 -->
+	<update id="modify">
+		UPDATE
+		    YC_ORDER
+		SET
+		    YC_ORDER_STATUS = #{yc_order_status}
+		WHERE
+		    YC_ORDER_ID = #{yc_order_id}
+	</update>
+	<select id="findByOrder" resultMap="ycOrderMap">
+		select * from yc_order 
+			inner join yc_video_details on yc_order.yc_order_detail_id=yc_video_details.yc_order_detail_id
+			<where>
+				<if test="yc_order_transaction_type != null ">
+					and	yc_order.yc_order_transaction_type=#{yc_order_transaction_type}
+				</if>
+				<if test="yc_order_type != null ">
+					and yc_order.yc_order_type=#{yc_order_type}
+				</if>
+				<if test="ycVideoDetails.yc_video_id != null ">
+					 and yc_video_details.yc_video_id=#{ycVideoDetails.yc_video_id}
+				</if>
+				<if test="ycVideoDetails.yc_user_id != null ">
+					and yc_video_details.yc_user_id=#{ycVideoDetails.yc_user_id}
+				</if>
+				<if test="ycVideoDetails.yc_reward_id != null ">
+					and yc_video_details.yc_reward_id=#{ycVideoDetails.yc_reward_id}
+				</if>
+				<if test="yc_order_status != null ">
+					and yc_order_status=#{yc_order_status}
+				</if>
+			</where>
+	</select>
+	<select id="findYcOrderByUserId" resultMap="ycOrderMap" >
+	select
+		*
+		from(select * from yc_order 
+			inner join yc_video_details on yc_order.yc_order_detail_id=yc_video_details.yc_order_detail_id
+			<where>
+				<if test="yc_order_transaction_type != null ">
+					and	yc_order.yc_order_transaction_type=#{yc_order_transaction_type}
+				</if>
+				<if test="yc_order_type != null ">
+					and yc_order.yc_order_type=#{yc_order_type}
+				</if>
+				<if test="yc_school_id != null ">
+					and yc_order.yc_school_id=#{yc_school_id}
+				</if>
+				<if test="ycVideoDetails.yc_video_id != null ">
+					 and yc_video_details.yc_video_id=#{ycVideoDetails.yc_video_id}
+				</if>
+				<if test="ycVideoDetails.yc_user_id != null ">
+					and yc_video_details.yc_user_id=#{ycVideoDetails.yc_user_id}
+				</if>
+				<if test="ycVideoDetails.yc_school_id != null ">
+					and yc_video_details.yc_school_id=#{ycVideoDetails.yc_school_id}
+				</if>
+				<if test="ycVideoDetails.yc_reward_id != null ">
+					and yc_video_details.yc_reward_id=#{ycVideoDetails.yc_reward_id}
+				</if>
+				<if test="ycVideoDetails.yc_feature_id != null">
+					and yc_video_details.yc_feature_id=#{ycVideoDetails.yc_feature_id}
+				</if>
+				<if test="yc_order_status != null ">
+					and yc_order_status=#{yc_order_status}
+				</if>
+			</where>
+		order by YC_CREATE_TIME desc 
+		)
+		where
+		ROWNUM =1
+	</select>
+	<select id="findOrderByParamCount" ></select>
+	
+</mapper>

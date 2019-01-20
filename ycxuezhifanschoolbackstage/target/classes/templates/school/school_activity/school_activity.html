@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>活动历史</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/style/admin.css" media="all">
+    <link rel="stylesheet" href="/style/template.css" media="all">
+</head>
+<body>
+<div class="layui-card">
+    <div align="center" th:if="${msg != null}"><h2 th:text="${msg}"></h2></div>
+    <table width="100%" th:each="a : ${activitys}">
+        <tr>
+            <td height="20px" colspan="3">
+                <hr>
+            </td>
+        </tr>
+        <tr>
+            <td width="40%" align="center">
+                <h2><span th:text="${a.activity_title}"></span></h2>
+            </td>
+            <td width="35%" align="left">
+                发起人：<span th:text="${a.activity_sponsor}"></span>
+                [<span th:text="${a.sponsor_type}"></span>]
+            </td>
+            <td rowspan="3" width="25%" align="center">
+                <img th:src="${a.activity_cover_image}" width="200px" height="150px">
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                名额:<span th:text="${a.activity_people_number}"></span>人
+            </td>
+            <td align="left">
+                已报名：<span th:text="${a.activity_people_number_yes}"></span>人
+            </td>
+            <td align="center">
+
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <button class="layui-btn" th:onclick="'javascript:show(\''+${a.id}+'\');'">查看报名信息</button>
+            </td>
+            <td align="left">
+                <span th:if="${a.activity_single_fee == 0}">免费活动</span>
+                <span th:if="${a.activity_single_fee != 0}"><span th:text="${a.activity_single_fee}"></span></span>元/人
+            </td>
+            <td align="center">
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <hr>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function () {
+
+    });
+
+    function show(id) {
+        /* 触发弹层 */
+        layer.open({
+                type: 2
+                , title: '报名信息'
+                , content: '/ycActivityApplicant/schoolactivityopen?id=' + id
+                , maxmin: true
+                , area: ['1000px', '800px']
+                , btn: ['导出数据', '返回']
+                , btnAlign: 'c'
+                , yes: function (index, layero) {
+                    //点击确认触发 iframe 内容中的按钮提交
+                    var submit = layero.find('iframe').contents().find("#layuiadmin-app-form-submit");
+                    submit.click();
+                }
+            });
+    }
+</script>
+</body>
+</html>

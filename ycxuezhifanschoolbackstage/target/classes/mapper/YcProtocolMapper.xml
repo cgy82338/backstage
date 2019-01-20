@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.protocol.mapper.YcProtocolMapper">
+
+    <select id="selectProtocolByType" resultType="yc.xuezhifan.schoolbackstage.protocol.bean.YcProtocol">
+		select
+		id,
+		yc_protocol_name,
+		yc_protocol_time,
+		yc_delete,
+		yc_protocol_content,
+		yc_type
+		from
+		YC_PROTOCOL
+		where
+		yc_type=#{type,jdbcType=INTEGER}
+	</select>
+</mapper>

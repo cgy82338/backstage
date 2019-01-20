@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.schoolprofile.mapper.YcSchoolProfileMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.schoolprofile.bean.YcSchoolProfile" id="ycSchoolProfileMap">
+		<id column="yc_id" property="yc_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_introduction" property="yc_introduction" jdbcType="VARCHAR" /> 
+		 <result column="yc_image" property="yc_image" jdbcType="VARCHAR" />
+		 <result column="yc_phone" property="yc_phone" jdbcType="VARCHAR"/>  
+		 <result column="yc_school_id" property="yc_school_id" jdbcType="VARCHAR"/>  
+	 </resultMap> 
+	 
+	 <!-- 添加学校概况 -->
+	 <!-- Integer insert(YcSchoolProfile ycSchoolProfile);-->
+	 <insert id="insert" parameterType="yc.xuezhifan.schoolbackstage.schoolprofile.bean.YcSchoolProfile">
+	 insert into YC_SCHOOL_PROFILE(
+	  		yc_id,
+			yc_introduction,
+			yc_image,
+			yc_phone,
+			yc_school_id
+	 )
+	 values(
+			 #{yc_id,jdbcType=VARCHAR},
+			 #{yc_introduction,jdbcType=VARCHAR},
+			 #{yc_image,jdbcType=VARCHAR},
+			 #{yc_phone,jdbcType=VARCHAR},
+			 #{yc_school_id,jdbcType=VARCHAR}
+	 )
+	 </insert>
+	 
+	 <!-- 查看学校简介 -->
+	 <!-- YcSchoolProfile selectByAll(String yc_id); -->
+	<select id="selectByAll" resultMap="ycSchoolProfileMap">
+	SELECT
+		    yc_id,
+			yc_introduction,
+			yc_image,
+			yc_phone,
+			yc_school_id
+		FROM
+	    	YC_SCHOOL_PROFILE
+	   WHERE 
+	   		yc_school_id=#{yc_id}
+	</select>
+</mapper>

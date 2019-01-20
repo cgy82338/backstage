@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <title>推广</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+</head>
+<body>
+<div class="layui-card" style="padding: 20px;">
+
+    <script type="text/html" template>
+        {{# if(layui.router().search.type === 'resetpass'){ }}
+        <table align="center" width="50%" style="border: 5px solid whitesmoke">
+            <tr align="center">
+                <td>
+                    开通推广需要支付以下费用
+                    <hr style="height: 2px">
+                </td>
+            </tr>
+            <tr align="center" >
+                <td>
+                    智慧豆：1000
+                    <hr style="height: 2px">
+                </td>
+            </tr>
+            <tr align="center">
+                <td>
+                    <button class="layui-btn layui-btn-normal" id="pay">支付</button>
+                </td>
+            </tr>
+        </table>
+        {{# } else { }}
+        <table align="center" width="50%" style="border: 5px solid whitesmoke">
+            <tr align="center">
+                <td>
+                    <h2>功能介绍</h2>
+                    <hr style="height: 2px">
+                </td>
+            </tr>
+            <tr align="center">
+                <td>
+                    <h3>
+                        开通推广服务后<br>
+                        便于您进行推广<br>
+                        并附赠"今日特惠"功能
+                    </h3>
+                </td>
+            </tr>
+            <tr align="center">
+                <td>
+                    <hr style="height: 2px">
+                    <button class="layui-btn layui-btn-normal" id="btn">开通功能</button>
+                </td>
+            </tr>
+        </table>
+        {{# } }}
+    </script>
+</div>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form;
+
+        $("#btn").click(function () {
+            location.hash = '/type=resetpass';
+            location.reload();
+        })
+
+        $("#pay").click(function () {
+            layer.confirm('确认支付1000智慧豆吗', function(index) {
+                $.ajax({
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "/schoolbean/isWisdom",//url
+                    success: function (result) {
+                        if (result.code == 200) {
+                            layer.msg("支付成功", {
+                                offset: '15px'
+                                , icon: 1
+                                , time: 1000
+                            }, function () {
+                                location.href = '/school/success';
+                            });
+                        } else {
+                            layer.alert(result.msg);
+                        }
+                    }
+                });
+            });
+
+        })
+    });
+</script>
+</body>
+</html>

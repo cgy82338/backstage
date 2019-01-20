@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.advertising.mapper.YcPushAdMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.advertising.bean.YcPushAd"
+		id="ycPushAdMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_headline" property="yc_headline"
+			jdbcType="VARCHAR" />
+		<result column="yc_advertising_space"
+			property="yc_advertising_space" jdbcType="VARCHAR" />
+		<result column="yc_push_type" property="yc_push_type"
+			jdbcType="INTEGER" />
+		<result column="yc_advertising_people"
+			property="yc_advertising_people" jdbcType="INTEGER" />
+		<result column="yc_push_content" property="yc_push_content"
+			jdbcType="VARCHAR" />
+		<result column="yc_volume" property="yc_volume"
+			jdbcType="INTEGER" />
+		<result column="yc_certificate" property="yc_certificate"
+			jdbcType="VARCHAR" />
+		<result column="yc_applicat_phone" property="yc_applicat_phone"
+			jdbcType="VARCHAR" />
+		<result column="yc_price" property="yc_price"
+			jdbcType="NUMERIC" />
+		<result column="yc_advertising_district"
+			property="yc_advertising_district" jdbcType="INTEGER" />
+		<result column="yc_advertising_status"
+			property="yc_advertising_status" jdbcType="INTEGER" />
+		<result column="yc_delete" property="yc_delete"
+			jdbcType="INTEGER" />
+		<result column="yc_review_time" property="yc_review_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_applicant" property="yc_applicant"
+			jdbcType="VARCHAR" />
+		<result column="yc_applicant_type" property="yc_applicant_type"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<insert id="insert">
+		insert into
+		YC_PUSH_AD(
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_push_type,
+		yc_advertising_people,
+		yc_push_content,
+		yc_volume,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_applicant_type
+		)values(
+		#{id,jdbcType=VARCHAR},
+		#{yc_headline,jdbcType=VARCHAR},
+		#{yc_advertising_space,jdbcType=VARCHAR},
+		#{yc_push_type,jdbcType=VARCHAR},
+		#{yc_advertising_people,jdbcType=INTEGER},
+		#{yc_push_content,jdbcType=VARCHAR},
+		#{yc_volume,jdbcType=INTEGER},
+		#{yc_certificate,jdbcType=VARCHAR},
+		#{yc_applicat_phone,jdbcType=VARCHAR},
+		#{yc_price,jdbcType=NUMERIC},
+		#{yc_advertising_district,jdbcType=VARCHAR},
+		#{yc_advertising_status,jdbcType=INTEGER},
+		#{yc_delete,jdbcType=INTEGER},
+		#{yc_applicant,jdbcType=VARCHAR},
+		#{yc_applicant_type,jdbcType=INTEGER}
+		)
+	</insert>
+	<!-- 查询所有推送广告 -->
+	<select id="findAll" resultMap="ycPushAdMap">
+		select
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_push_type,
+		yc_advertising_people,
+		yc_push_content,
+		yc_volume,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_review_time
+		from
+		YC_PUSH_AD
+		<where>
+			<if test="yc_headline != null">and yc_headline like
+				CONCAT(CONCAT('%',#{yc_headline}),'%')</if>
+			<if test="1 == 1">
+				and yc_applicant =#{yc_applicant}
+			</if>
+			<if test="yc_advertising_status != null">and
+				yc_advertising_status=#{yc_advertising_status}
+			</if>
+			<if test="1 == 1">and yc_delete=1</if>
+			<if test="1 == 1">and yc_applicant_type=2</if>
+		</where>
+		order by
+		yc_volume
+		asc
+	</select>
+
+	<update id="update">
+		update
+		YC_PUSH_AD
+		<trim suffixOverrides="," prefix="set">
+			<if test="yc_headline != null">yc_headline=#{yc_headline},</if>
+			<if test="yc_advertising_space != null">yc_advertising_space=#{yc_advertising_space},</if>
+			<if test="yc_push_type != null">yc_push_type=#{yc_push_type},</if>
+			<if test="yc_advertising_people != null">yc_advertising_people=#{yc_advertising_people},</if>
+			<if test="yc_push_content != null">yc_push_content=#{yc_push_content},</if>
+			<if test="yc_volume != null">yc_volume=#{yc_volume},</if>
+			<if test="yc_certificate != null">yc_certificate=#{yc_certificate},</if>
+			<if test="yc_applicat_phone != null">yc_applicat_phone=#{yc_applicat_phone},</if>
+			<if test="yc_price != null">yc_price=#{yc_price},</if>
+			<if test="yc_advertising_district != null">yc_advertising_district=#{yc_advertising_district},</if>
+			<if test="yc_advertising_status != null">yc_advertising_status=#{yc_advertising_status},</if>
+			<if test="yc_delete != null">yc_delete=#{yc_delete},</if>
+			<if test="yc_applicant != null">yc_applicant=#{yc_applicant},</if>
+		</trim>
+		where
+		id=#{id}
+	</update>
+
+	<select id="selectById" resultMap="ycPushAdMap">
+		select
+		id,
+		yc_headline,
+		yc_advertising_space,
+		yc_push_type,
+		yc_advertising_people,
+		yc_push_content,
+		yc_volume,
+		yc_certificate,
+		yc_applicat_phone,
+		yc_price,
+		yc_advertising_district,
+		yc_advertising_status,
+		yc_delete,
+		yc_applicant,
+		yc_review_time,
+		yc_applicant_type
+		from
+		YC_PUSH_AD
+		where
+		id=#{id}
+		and
+		yc_delete=1
+	</select>
+
+	<select id="getVolume" resultType="java.lang.Integer">
+		select sum(yc_volume) from YC_PUSH_AD
+		where
+		yc_advertising_space=#{yc_advertising_space}
+		and
+		yc_advertising_status!=3
+		and
+		yc_delete=1
+	</select>
+
+	<!-- 查询现在推送的广告 -->
+	<!-- YcPushAd selectBydistrict(String yc_advertising_district); -->
+	<select id="selectBydistrict" resultMap="ycPushAdMap">
+		select
+		*
+		from
+		SCOTT.YC_PUSH_AD
+		where
+		yc_advertising_space=(
+		select
+		id
+		from
+		SCOTT.YC_ADVERTISING_SPACE_AREA
+		where
+		yc_advertising_id=(
+		select
+		id
+		from
+		SCOTT.YC_ADVERTISING_SPACE
+		where
+		yc_advertising_type=3
+
+		)
+		and
+		yc_advertising_district=#{yc_advertising_district}
+		)
+		and
+		ROWNUM =1
+	</select>
+</mapper>

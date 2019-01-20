@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.ycClass.mapper.YcIntermediateTableMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.ycClass.bean.YcIntermediateTable" id="YcIntermediateTableMap"> 
+		 <id column="yc_intermediate_table_id" property="yc_intermediate_table_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_class_id" property="yc_class_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_teacher_information_id" property="yc_teacher_information_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_teacher_position" property="yc_teacher_position" jdbcType="INTEGER" /> 
+		 <!-- <association property="ycClasses" column="yc_class_id" select="yc.xuezhifan.ycxuezhifan.ycClass.mapper.YcClassMapper.selectClassById"></association>-->
+		 <!-- <association property="yctearcher" column="yc_teacher_information_id" select="yc.xuezhifan.ycxuezhifan.mapper.YcUserMapper.selectById"></association>  -->
+	 </resultMap> 
+	
+	<!-- 添加 -->
+	<!-- void insert(YcIntermediateTableMapper ycIntermediateTableMapper) -->
+	<insert id="insert" 
+		parameterType="yc.xuezhifan.schoolbackstage.ycClass.bean.YcIntermediateTable">
+		 insert into YC_INTERMEDIATE_TABLE 
+			 (
+				 YC_INTERMEDIATE_TABLE_ID, 
+				 YC_CLASS_ID, 
+		         YC_TEACHER_INFORMATION_ID,
+		         yc_teacher_position
+	         )
+	    values  
+	         (
+		         #{yc_intermediate_table_id,jdbcType=VARCHAR}, 
+		         #{yc_class_id,jdbcType=VARCHAR}, 
+		         #{yc_teacher_information_id,jdbcType=VARCHAR},
+		         #{yc_teacher_position,jdbcType=INTEGER}
+	         )
+	</insert>
+	
+	<!--根据班级id 查询所属该班级的所有教师  -->
+	<select id="findTeacherByClassId" resultMap="YcIntermediateTableMap">
+	SELECT
+	    YC_INTERMEDIATE_TABLE_ID,
+	    YC_CLASS_ID,
+	    YC_TEACHER_INFORMATION_ID,
+	    yc_teacher_position
+	FROM
+	    YC_INTERMEDIATE_TABLE
+	 where
+	 	YC_CLASS_ID=#{yc_class_Id}
+	</select>
+	
+	
+	<!-- 批量删除 -->
+	<!-- void deleteIntermediateTable(String yc_class_id); -->
+	<delete id="deleteIntermediateTable">
+	delete from SCOTT.YC_INTERMEDIATE_TABLE 
+	where YC_CLASS_ID = #{yc_class_id}
+	
+	
+	
+	</delete>
+
+	<!-- 根据主键id删除信息-->
+	<delete id="deleteIntermediateById">
+	delete from SCOTT.YC_INTERMEDIATE_TABLE
+	where yc_intermediate_table_id = #{yc_intermediate_table_id}
+	</delete>
+	
+	<!-- 根据班级id查询信息 -->
+	<!-- List<YcIntermediateTable> getIntermediateTableByClassId(String yc_class_id); -->
+	<select id="getIntermediateTableByClassId" resultMap="YcIntermediateTableMap">
+	select 
+				 YC_INTERMEDIATE_TABLE_ID, 
+				 YC_CLASS_ID, 
+		         YC_TEACHER_INFORMATION_ID,
+		         yc_teacher_position
+	from SCOTT.YC_INTERMEDIATE_TABLE
+	where YC_CLASS_ID = #{yc_class_id}
+	
+	
+	</select>
+	
+	
+	<!-- 根据教师Id删除 -->
+	<!-- void deleteIntermediateTableByTeacher(String string); -->
+	<delete id="deleteIntermediateTableByTeacher">
+	delete from SCOTT.YC_INTERMEDIATE_TABLE 
+	where YC_TEACHER_INFORMATION_ID = #{yc_class_id}
+	
+	</delete>
+	
+	<!-- 根据班级ID和教师ID查询信息 -->
+	<!-- YcIntermediateTable selectByClassAndTeacher(YcIntermediateTable ycIntermediateTable); -->
+	<select id="selectByClassAndTeacher" resultMap="YcIntermediateTableMap">
+	select 
+				 YC_INTERMEDIATE_TABLE_ID, 
+				 YC_CLASS_ID, 
+		         YC_TEACHER_INFORMATION_ID,
+		         yc_teacher_position
+	from SCOTT.YC_INTERMEDIATE_TABLE
+	where YC_CLASS_ID = #{yc_class_id}
+	and YC_TEACHER_INFORMATION_ID = #{yc_teacher_information_id}
+	
+	
+	</select>
+	
+	<!-- 根据教师id查询信息 -->
+	<!-- YcIntermediateTable getIntermediateTableByTeacherId(String id); -->
+	<select id="getIntermediateTableByTeacherId" resultMap="YcIntermediateTableMap">
+	select 
+				 YC_INTERMEDIATE_TABLE_ID, 
+				 YC_CLASS_ID, 
+		         YC_TEACHER_INFORMATION_ID,
+		         yc_teacher_position
+	from SCOTT.YC_INTERMEDIATE_TABLE
+	where YC_TEACHER_INFORMATION_ID = #{id}
+	
+	
+	</select>
+	
+	<!-- 根据教师ID和班级id删除信息 -->
+	<!-- void deleteByTeacherAndClassId(String teacherId, String yc_class_id); -->
+	<delete id="deleteByTeacherAndClassId">
+	delete from SCOTT.YC_INTERMEDIATE_TABLE 
+	where YC_TEACHER_INFORMATION_ID = #{teacherId}
+	and  YC_CLASS_ID = #{yc_class_id}
+	
+	
+	</delete>
+	<!--通过id修改教师职务-->
+	<update id="updatePosition">
+		update SCOTT.YC_INTERMEDIATE_TABLE
+		set
+		yc_teacher_position = #{yc_teacher_position}
+		where yc_intermediate_table_id = #{yc_intermediate_table_id}
+	</update>
+	
+</mapper>

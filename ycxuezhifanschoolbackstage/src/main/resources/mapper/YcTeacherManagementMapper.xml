@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+        namespace="yc.xuezhifan.schoolbackstage.teacher.mapper.YcTeacherManagementMapper">
+    <resultMap
+            type="yc.xuezhifan.schoolbackstage.teacher.vo.YcTeacherVo"
+            id="YcTeacherManagementMap">
+        <id column="yc_teacher_information_id"
+            property="yc_teacher_information_id" jdbcType="VARCHAR"/>
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="yc_teacher_informati_position"
+                property="yc_teacher_informati_position" jdbcType="INTEGER"/>
+        <result column="yc_subject_management_id"
+                property="yc_subject_management_id" jdbcType="VARCHAR"/>
+        <association property="ycUser" column="id"
+                     select="yc.xuezhifan.ycxuezhifan.mapper.YcUserMapper.selectById"></association>
+    </resultMap>
+
+    <!-- <resultMap type="yc.xuezhifan.ycxuezhifan.bean.YcUser" id="ycUserMap">
+        <id column="id" property="id" jdbcType="VARCHAR" /> <result column="yc_id"
+        property="yc_id" jdbcType="VARCHAR" /> <result column="yc_username" property="yc_username"
+        jdbcType="VARCHAR" /> <result column="yc_nickname" property="yc_nickname"
+        jdbcType="VARCHAR" /> <result column="yc_gender" property="yc_gender" jdbcType="INTEGER"
+        /> <result column="yc_province" property="yc_province" jdbcType="VARCHAR"
+        /> <result column="yc_city" property="yc_city" jdbcType="VARCHAR" /> <result
+        column="yc_district" property="yc_district" jdbcType="VARCHAR" /> <result
+        column="yc_map_address" property="yc_map_address" jdbcType="VARCHAR" /> <result
+        column="yc_password" property="yc_password" jdbcType="VARCHAR" /> <result
+        column="yc_password_encryption" property="yc_password_encryption" jdbcType="VARCHAR"
+        /> <result column="yc_phone" property="yc_phone" jdbcType="VARCHAR" /> <result
+        column="yc_role" property="yc_role" jdbcType="INTEGER" /> <result column="yc_avatar"
+        property="yc_avatar" jdbcType="VARCHAR" /> <result column="yc_introduction"
+        property="yc_introduction" jdbcType="VARCHAR" /> <result column="yc_carte"
+        property="yc_carte" jdbcType="VARCHAR" /> <result column="yc_status" property="yc_status"
+        jdbcType="INTEGER" /> <result column="yc_login_time" property="yc_login_time"
+        jdbcType="TIMESTAMP" /> <result column="yc_founder" property="yc_founder"
+        jdbcType="VARCHAR" /> <result column="yc_delete" property="yc_delete" jdbcType="INTEGER"
+        /> <result column="yc_wechat_appid" property="yc_wechat_appid" jdbcType="VARCHAR"
+        /> <result column="yc_qq_unionid" property="yc_qq_unionid" jdbcType="VARCHAR"
+        /> <result column="yc_alipay_appid" property="yc_alipay_appid" jdbcType="VARCHAR"
+        /> <result column="yc_token" property="yc_token" jdbcType="VARCHAR" /> </resultMap> -->
+
+
+    <!-- 添加 -->
+    <!-- void insertTeacherManagement(YcTeacherVo ycTeacherVo); -->
+    <insert id="insertTeacherManagement"
+            parameterType="yc.xuezhifan.schoolbackstage.teacher.bean.YcTeacherManagement">
+
+		insert into SCOTT.YC_TEACHER_MANAGEMENT (
+		yc_teacher_information_id,
+		id,
+		yc_teacher_informati_position,
+		yc_subject_management_id
+		)
+		values (
+		#{yc_teacher_information_id,jdbcType=VARCHAR},
+		#{id,jdbcType=VARCHAR},
+		#{yc_teacher_informati_position,jdbcType=VARCHAR},
+		#{yc_subject_management_id,jdbcType=VARCHAR}
+		)
+
+	</insert>
+
+
+    <!-- 通过学校id查询教师 -->
+    <!-- List<YcTeacherVo> findAllBySchoolId(String id); -->
+    <select id="findAllBySchoolId" resultMap="YcTeacherManagementMap">
+		select   *
+       	from 
+		         YC_TEACHER_MANAGEMENT  inner join YC_USER 
+		on       YC_TEACHER_MANAGEMENT.id = YC_USER.id  
+		where    YC_USER.yc_founder = #{id,jdbcType=VARCHAR}
+		and      yc_delete = '1'  
+		
+		
+		
+	</select>
+
+
+    <!-- 修改教师信息 -->
+    <!-- int updateTeacherById(YcTeacherVo ycTeacherVo); -->
+    <update id="updateTeacherById"
+            parameterType="yc.xuezhifan.schoolbackstage.teacher.vo.YcTeacherVo">
+        UPDATE
+        SCOTT.YC_TEACHER_MANAGEMENT
+        <trim prefix="set" suffixOverrides=",">
+            <if test="yc_teacher_informati_position != null">
+                yc_teacher_informati_position=#{yc_teacher_informati_position},
+            </if>
+            <if test="yc_subject_management_id != null">
+                yc_subject_management_id=#{yc_subject_management_id},
+            </if>
+        </trim>
+        WHERE
+        ID = #{id}
+    </update>
+
+    <!-- 将原信息修改为新账户信息（用户学校创建教师） -->
+    <!-- void updateTeacherByTeacherId(YcTeacherVo ycTeacherVo); -->
+    <update id="updateTeacherByTeacherId"
+            parameterType="yc.xuezhifan.schoolbackstage.teacher.vo.YcTeacherVo">
+        UPDATE
+        SCOTT.YC_TEACHER_MANAGEMENT
+        <trim prefix="set" suffixOverrides=",">
+            <if test="yc_teacher_information_id != null">
+                yc_teacher_information_id=#{yc_teacher_information_id},
+            </if>
+            <if test="yc_teacher_informati_position != null">
+                yc_teacher_informati_position=#{yc_teacher_informati_position},
+            </if>
+
+            <if test="yc_subject_management_id != null">
+                yc_subject_management_id=#{yc_subject_management_id},
+            </if>
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
+
+
+    <!-- 查询所有教师信息 -->
+    <!-- List<YcTeacherVo> findAll(); -->
+    <select id="findAll" resultMap="YcTeacherManagementMap">
+		select 
+				yc_teacher_information_id,
+			id,
+			yc_teacher_informati_position,
+			yc_subject_management_id 
+		from 
+				SCOTT.YC_TEACHER_MANAGEMENT 
+		
+	</select>
+
+
+    <!--通过用户id查询教师职务-->
+    <select id="getTeacherByUserId" resultType="yc.xuezhifan.schoolbackstage.teacher.bean.YcTeacherManagement">
+	 	select
+	 	yc_teacher_information_id,
+	 	id,
+	 	yc_teacher_informati_position,
+	 	yc_subject_management_id
+	 	from
+		SCOTT.YC_TEACHER_MANAGEMENT
+		where
+		id = #{id}
+		</select>
+
+    <!--通过科目id查询科目-->
+    <select id="getSubjectByUserId" resultType="yc.xuezhifan.schoolbackstage.teacher.bean.YcSubjectManagement">
+			select
+			id,
+			yc_subject_number,
+			yc_subject_name
+			from
+			SCOTT.YC_SUBJECT_MANAGEMENT
+			where
+			id = #{id}
+			</select>
+
+    <!--查询所有科目-->
+    <select id="findSubjectAll" resultType="yc.xuezhifan.schoolbackstage.teacher.bean.YcSubjectManagement">
+			select
+			id,
+			yc_subject_number,
+			yc_subject_name
+			from
+			SCOTT.YC_SUBJECT_MANAGEMENT
+			</select>
+
+
+    <!-- 查询电话号码是否存在 -->
+    <!-- Integer selectByPhone(String phone) -->
+    <!-- <select id="selectByPhone" resultMap="ycUserMap" > select * from yc_user
+        where yc_phone=#{phone} and yc_delete = '1' </select> -->
+
+    <!-- 根据Id查询教师信息 -->
+    <!-- YcUser selectById(String id); -->
+    <!-- <select id="selectById" resultMap="ycUserMap" > select * from yc_user
+        where id=#{id} and yc_delete = '1' </select> -->
+
+
+    <!-- 添加用户 -->
+    <!-- void insertUser(YcUser ycUser) -->
+    <!--<insert id="insertUser" parameterType="yc.xuezhifan.ycxuezhifan.teacher.vo.YcTeacherVo"
+        > insert INTO yc_user values(#{id},#{yc_id},#{yc_username,jdbcType=VARCHAR},#{yc_nickname,jdbcType=VARCHAR},#{yc_gender,jdbcType=INTEGER},#{yc_province},#{yc_city},
+        #{yc_district},#{yc_map_address},#{yc_password},#{yc_password_encryption},#{yc_phone},
+        #{yc_role},#{yc_avatar,jdbcType=VARCHAR},#{yc_introduction,jdbcType=VARCHAR},#{yc_carte,jdbcType=VARCHAR},
+        #{yc_status,jdbcType=INTEGER },#{yc_login_time},#{yc_founder,jdbcType=VARCHAR},#{yc_delete,jdbcType=INTEGER},
+        #{yc_wechat_appid,jdbcType=VARCHAR},#{yc_qq_unionid,jdbcType=VARCHAR},#{yc_alipay_appid,jdbcType=VARCHAR},#{yc_token,jdbcType=VARCHAR})
+        </insert> -->
+
+
+    <!-- 删除教师信息（仅将删除状态修改为不展示） -->
+    <!-- String deleteTeacherById(String id); -->
+    <!-- <update id="deleteTeacherById" parameterType="yc.xuezhifan.ycxuezhifan.teacher.vo.YcTeacherVo">
+        UPDATE SCOTT.YC_USER SET yc_delete= '2' WHERE ID = #{id} </update> -->
+
+    <!-- 查询所有教师信息 -->
+    <!-- List<YcTeacherVo> findAll(); -->
+
+
+
+</mapper>

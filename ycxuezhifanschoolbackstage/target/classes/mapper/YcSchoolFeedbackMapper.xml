@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.schoolfeedback.mapper.YcSchoolFeedbackMapper">
+
+    <!-- 添加反馈 -->
+    <insert id="insertFeedback"
+            parameterType="yc.xuezhifan.schoolbackstage.schoolfeedback.bean.YcSchoolFeedback">
+        INSERT INTO yc_school_feedback (
+        id,
+        yc_school_id,
+        yc_feedback_time,
+        yc_processing_id,
+        yc_processing_time,
+        yc_feedback_detail,
+        yc_detail_result,
+        yc_feedback_status,
+        yc_feedback_phone
+        ) values(
+        #{id},
+        #{yc_school_id,jdbcType=VARCHAR},
+        #{yc_feedback_time,jdbcType=TIMESTAMP},
+        #{yc_processing_id,jdbcType=VARCHAR},
+        #{yc_processing_time,jdbcType=TIMESTAMP},
+        #{yc_feedback_detail,jdbcType=VARCHAR},
+        #{yc_detail_result,jdbcType=VARCHAR},
+        #{yc_feedback_status,jdbcType=INTEGER},
+        #{yc_feedback_phone,jdbcType=VARCHAR}
+        )
+    </insert>
+</mapper>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>关注成功</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/style/admin.css" media="all">
+    <link rel="stylesheet" href="/style/template.css" media="all">
+    <link rel="stylesheet" href="/style/login.css" media="all">
+</head>
+<body>
+<div style="position: absolute;top:3%;left: 5%;width: 90%;height: 90%">
+    <table width="100%">
+        <!--第一行 用户信息显示-->
+        <tr>
+            <td>
+                <table width="100%">
+                    <!--间隔-->
+                    <tr>
+                        <td height="20px"></td>
+                    </tr>
+                    <!--头像-->
+                    <tr>
+                        <td align="center">
+                            <img class="layadmin-homepage-pad-img" th:src="${result[childavator]}" width="30%"
+                                 height="30%">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="20px"></td>
+                    </tr>
+                    <!--结果-->
+                    <tr>
+                        <td align="center"><h2><span th:text="${result[msg]}"></span></h2></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="30px"></td>
+        </tr>
+        <!--第二行 孩子属性-->
+        <tr>
+            <td align="center">
+                    <span th:text="${result[success]}"/>
+            </td>
+        </tr>
+        <tr>
+            <td height="210px"></td>
+        </tr>
+        <!--第三行 下载-->
+        <tr>
+            <td>
+                <button class="layui-btn layui-btn-radius layui-btn-fluid" id="btn">下载学知帆</button>
+            </td>
+        </tr>
+        <tr>
+            <td height="80px"></td>
+        </tr>
+        <!--第四行 logo-->
+        <tr>
+            <td align="center">
+                <img src="/share/image/logo.png" width="70%" height="35%">
+            </td>
+        </tr>
+    </table>
+</div>
+<style type="text/css">
+    body {
+        background-image: url('/share/image/background.png');
+        background-position: center;
+        background-size: 100%;
+        background-repead: no-repead;
+    }
+</style>
+<script src="/layui/layui.js"></script>
+<script src="/share/sharesuccess.js"></script>
+</body>
+</html>

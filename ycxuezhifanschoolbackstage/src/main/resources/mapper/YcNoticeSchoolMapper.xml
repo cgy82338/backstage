@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.schoolnotice.mapper.YcNoticeSchoolMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.schoolnotice.bean.YcNoticeSchool" id="YcNoticeSchoolMap"> 
+		 <id column="id" property="id" jdbcType="VARCHAR" /> 
+		 <result column="yc_notice_detail" property="yc_notice_detail" jdbcType="VARCHAR" /> 
+		 <result column="yc_notice_image" property="yc_notice_image" jdbcType="VARCHAR" /> 
+		 <result column="yc_notice_voice" property="yc_notice_voice" jdbcType="VARCHAR" /> 
+		 <result column="yc_notice_school" property="yc_notice_school" jdbcType="VARCHAR" /> 
+		 <result column="yc_notice_id" property="yc_notice_id" jdbcType="VARCHAR" /> 
+		 <result column="yc_notice_time" property="yc_notice_time" jdbcType="TIMESTAMP" />
+		 <association property="ycSchool" column="yc_notice_school"
+			select="yc.xuezhifan.schoolbackstage.school.mapper.YcSchoolMapper.selectById"></association>
+	 </resultMap> 
+	
+	<!-- 添加学校通知公告 -->
+	<!-- void insert(YcNoticeSchool ycNoticeSchool) -->
+	<insert id="insert" 
+		parameterType="yc.xuezhifan.schoolbackstage.schoolnotice.bean.YcNoticeSchool">
+		insert into 
+			SCOTT.YC_NOTICE_SCHOOL
+			(
+				id,
+				yc_notice_detail,
+				yc_notice_image,
+				yc_notice_voice,
+				yc_notice_school,
+				yc_notice_id,
+				yc_notice_time
+			)
+		<foreach collection="list" item="ycNoticeSchool" index="index"
+			separator="UNION ALL">
+			select
+
+			#{ycNoticeSchool.id,jdbcType=VARCHAR} id,
+			#{ycNoticeSchool.yc_notice_detail,jdbcType=VARCHAR}
+			yc_notice_detail,
+			#{ycNoticeSchool.yc_notice_image,jdbcType=VARCHAR}
+			yc_notice_image,
+			#{ycNoticeSchool.yc_notice_voice,jdbcType=VARCHAR}
+			yc_notice_voice,
+			#{ycNoticeSchool.yc_notice_school,jdbcType=INTEGER}
+			yc_notice_school,
+			#{ycNoticeSchool.yc_notice_id,jdbcType=VARCHAR}
+			yc_notice_id,
+			#{ycNoticeSchool.yc_notice_time,jdbcType=TIMESTAMP}
+			yc_notice_time
+
+			from dual
+		</foreach>
+	</insert>
+	
+	<!-- 查询所有学校通知公告 -->
+	<!-- List<YcNoticeSchool> findAll(@Param("currentPage") Integer currentPage,
+			@Param("pageSize") Integer pageSize) -->
+	<select id="findAll" resultMap="YcNoticeSchoolMap">
+		select * from (select t.*,rownum
+		rownu from (select * from SCOTT.YC_NOTICE_SCHOOL
+		order by
+		yc_notice_time
+		desc) t
+		where rownum &lt;=#{currentPage}*#{pageSize} ) tt
+		where tt.rownu>(#{currentPage}-1)*#{pageSize}
+	</select>
+	
+	<!-- 根据id查询学校通知公告 -->
+	<!-- List<YcNoticeSchool> noticeSchoolById() -->
+	<select id="noticeSchoolById" resultMap="YcNoticeSchoolMap">
+	select 
+			id,
+				yc_notice_detail,
+				yc_notice_image,
+				yc_notice_voice,
+				yc_notice_school,
+				yc_notice_id,
+				yc_notice_time
+	from 
+		YC_NOTICE_SCHOOL
+	where 
+		yc_notice_school =#{id}
+	order by 
+			yc_notice_time desc
+	</select>
+	
+	<!-- 根据id查询学校通知公告 -->
+	<!-- List<YcNoticeSchool> noticeSchoolByUserId(String yc_notice_school) -->
+	<select id="noticeSchoolByUserId" resultMap="YcNoticeSchoolMap">
+	select 
+			id,
+				yc_notice_detail,
+				yc_notice_image,
+				yc_notice_voice,
+				yc_notice_school,
+				yc_notice_id,
+				yc_notice_time
+	from 
+		YC_NOTICE_SCHOOL
+	where 
+		yc_notice_school =#{yc_notice_school}
+	order by 
+			yc_notice_time desc
+	</select>
+	
+	<!-- 获取用户token -->
+	<select id="selectByUserToken"  resultType="java.lang.String">
+	select  yc_user.yc_token  
+	from yc_parent_class  
+	inner  join  yc_user on yc_user.id =yc_parent_class.yc_parent_id  
+	where   yc_parent_class.yc_class_id=#{yc_notice_class}
+	</select>
+	<delete id="del">
+		delete from YC_NOTICE_SCHOOL where id=#{id}
+	</delete>
+</mapper>

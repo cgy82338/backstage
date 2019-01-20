@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.ycClass.mapper.YcParentClassMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.ycClass.bean.YcParentClass"
+		id="ycParentClassMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_parent_id" property="yc_parent_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_class_id" property="yc_class_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_create_time" property="yc_create_time"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_status" property="yc_status"
+			jdbcType="INTEGER" />
+		<result column="yc_review_id" property="yc_review_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_verification_message"
+			property="yc_verification_message" jdbcType="VARCHAR" />
+		<result column="yc_reason" property="yc_reason"
+			jdbcType="VARCHAR" />
+		<result column="yc_remarks" property="yc_remarks"
+			jdbcType="VARCHAR" />
+		<result column="yc_permission_status"
+			property="yc_permission_status" jdbcType="INTEGER" />
+		<result column="yc_message_avoidance" property="yc_message_avoidance" jdbcType="VARCHAR"/>
+	<association property="ycUser" column="yc_parent_id"
+			select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association>
+		<association property="ycReview" column="yc_review_id"
+			select="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper.selectById"></association> 
+		<association property="ycClass" column="yc_class_id"
+			select="yc.xuezhifan.schoolbackstage.ycClass.mapper.YcClassMapper.selectClassById"></association>
+	</resultMap>
+
+	<!-- 添加家长班级关系 -->
+	<!-- Integer addParentClass(YcParentClass ycParentClass); -->
+	<insert id="addParentClass"
+		parameterType="yc.xuezhifan.schoolbackstage.ycClass.bean.YcParentClass">
+		insert into
+		YC_PARENT_CLASS(
+		id,
+		yc_parent_id,
+		yc_class_id,
+		yc_create_time,
+		yc_status,
+		yc_review_id,
+		yc_permission_status,
+		yc_verification_message,
+		yc_reason,
+		yc_remarks,
+		yc_message_avoidance
+		)
+		values
+		(
+		#{id,jdbcType=VARCHAR},
+		#{yc_parent_id,jdbcType=VARCHAR},
+		#{yc_class_id,jdbcType=VARCHAR},
+		#{yc_create_time,jdbcType=TIMESTAMP},
+		#{yc_status,jdbcType=INTEGER},
+		#{yc_review_id,jdbcType=VARCHAR},
+		#{yc_permission_status,jdbcType=INTEGER},
+		#{yc_verification_message,jdbcType=VARCHAR},
+		#{yc_reason,jdbcType=VARCHAR},
+		#{yc_remarks,jdbcType=VARCHAR},
+		#{yc_message_avoidance,jdbcType=VARCHAR}
+		)
+
+	</insert>
+
+	<!-- 根据家长id查询家长班级关系 -->
+	<!-- List<YcParentClass> selectParentClassByParent(String parentId); -->
+	<select id="selectParentClassByParent"
+		resultMap="ycParentClassMap">
+		select
+		id,
+		yc_parent_id,
+		yc_class_id,
+		yc_create_time,
+		yc_status,
+		yc_review_id,
+		yc_permission_status,
+		yc_verification_message,
+		yc_reason,
+		yc_remarks,
+		yc_message_avoidance
+		from YC_PARENT_CLASS
+		where yc_parent_id = #{parentId}
+
+	</select>
+
+	<!-- 根据家长和班级id删除关系信息 -->
+	<!-- Integer deleteParentClass(String yc_parent_id, String classId); -->
+	<delete id="deleteParentClass">
+		delete from YC_PARENT_CLASS
+		where yc_parent_id = #{yc_parent_id,jdbcType=VARCHAR}
+		and yc_class_id = #{yc_class_id,jdbcType=VARCHAR}
+	</delete>
+	<!-- 根据家长Id删除所有关系 -->
+	<!-- void deleteByParent(String parentId); -->
+	<delete id="deleteByParent">
+		delete from YC_PARENT_CLASS
+		where yc_parent_id = #{yc_parent_id,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="findByParent"
+		resultMap="ycParentClassMap">
+		SELECT
+		ID,
+		YC_PARENT_ID,
+		YC_CLASS_ID,
+		YC_CREATE_TIME,
+		YC_STATUS,
+		YC_REVIEW_ID,
+		YC_PERMISSION_STATUS,
+		YC_VERIFICATION_MESSAGE,
+		YC_REASON,
+		yc_remarks,
+		yc_message_avoidance
+		FROM
+			YC_PARENT_CLASS
+		where YC_CLASS_ID=#{yc_class_id} and YC_PARENT_ID=#{yc_parent_id} and
+		YC_STATUS=#{yc_status}
+	</select>
+	<select id="selectById" resultMap="ycParentClassMap">
+		SELECT
+		ID,
+		YC_PARENT_ID,
+		YC_CLASS_ID,
+		YC_CREATE_TIME,
+		YC_STATUS,
+		YC_REVIEW_ID,
+		YC_PERMISSION_STATUS,
+		YC_VERIFICATION_MESSAGE,
+		YC_REASON,
+		yc_remarks,
+		yc_message_avoidance
+		FROM
+		SCOTT.YC_PARENT_CLASS
+		where ID=#{id}
+	</select>
+
+	<select id="findByClassId" resultMap="ycParentClassMap">
+		SELECT
+		ID,
+		YC_PARENT_ID,
+		YC_CLASS_ID,
+		YC_CREATE_TIME,
+		YC_STATUS,
+		YC_REVIEW_ID,
+		YC_PERMISSION_STATUS,
+		YC_VERIFICATION_MESSAGE,
+		YC_REASON,
+		yc_remarks,
+		yc_message_avoidance
+		FROM
+		YC_PARENT_CLASS
+		where
+		YC_CLASS_ID =#{yc_class_id ,jdbcType=VARCHAR} 
+	</select>
+
+
+	<select id="findGroupByClassId" resultMap="ycParentClassMap">
+		SELECT
+		ID,
+		YC_PARENT_ID,
+		YC_CLASS_ID,
+		YC_CREATE_TIME,
+		YC_STATUS,
+		YC_REVIEW_ID,
+		YC_PERMISSION_STATUS,
+		YC_VERIFICATION_MESSAGE,
+		YC_REASON,
+		yc_remarks,
+		yc_message_avoidance
+		FROM
+		YC_PARENT_CLASS
+		where
+		YC_CLASS_ID =#{yc_class_id ,jdbcType=VARCHAR} and YC_STATUS = 1
+	</select>
+
+	<select id="findByClass" resultMap="ycParentClassMap">
+		SELECT
+		ID,
+		YC_PARENT_ID,
+		YC_CLASS_ID,
+		YC_CREATE_TIME,
+		YC_STATUS,
+		YC_REVIEW_ID,
+		YC_PERMISSION_STATUS,
+		YC_VERIFICATION_MESSAGE,
+		YC_REASON,
+		yc_remarks,
+		yc_message_avoidance
+		FROM
+		YC_PARENT_CLASS
+		where
+		YC_PARENT_ID =#{id} and YC_STATUS = 1
+	</select>
+	<select id="findParentClassBatch" resultMap="ycParentClassMap">
+		SELECT
+			ID,
+			YC_PARENT_ID,
+			YC_CLASS_ID,
+			YC_CREATE_TIME,
+			YC_STATUS,
+			YC_REVIEW_ID,
+			YC_PERMISSION_STATUS,
+			YC_VERIFICATION_MESSAGE,
+			YC_REASON,
+			yc_remarks,
+			yc_message_avoidance
+		FROM
+			YC_PARENT_CLASS
+		where
+			YC_CLASS_ID =#{yc_class_id}  and YC_PARENT_ID in
+			 <foreach collection="parentId" index="index" item="item" open="(" separator="," close=")">
+          			#{item}
+    </foreach>
+	</select>
+	<select id="selectParentClass" resultMap="ycParentClassMap" >
+	SELECT
+			ID,
+			YC_PARENT_ID,
+			YC_CLASS_ID,
+			YC_CREATE_TIME,
+			YC_STATUS,
+			YC_REVIEW_ID,
+			YC_PERMISSION_STATUS,
+			YC_VERIFICATION_MESSAGE,
+			YC_REASON,
+			yc_remarks,
+			yc_message_avoidance
+		FROM
+			YC_PARENT_CLASS
+		where
+			YC_CLASS_ID =#{yc_class_id}  and YC_PARENT_ID =#{id}
+	</select>
+	
+	<select id="findPatentClassByClassId" resultMap="ycParentClassMap" >
+	SELECT
+			ID,
+			YC_PARENT_ID,
+			YC_CLASS_ID,
+			YC_CREATE_TIME,
+			YC_STATUS,
+			YC_REVIEW_ID,
+			YC_PERMISSION_STATUS,
+			YC_VERIFICATION_MESSAGE,
+			YC_REASON,
+			yc_remarks,
+			yc_message_avoidance
+		FROM
+			YC_PARENT_CLASS
+		where
+			YC_CLASS_ID =#{yc_class_id} 
+	</select>
+	<update id="modify">
+		UPDATE
+		YC_PARENT_CLASS
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_parent_id != null">yc_parent_id=#{yc_parent_id},</if>
+			<if test="yc_class_id != null">yc_class_id=#{yc_class_id},</if>
+			<if test="yc_create_time != null">yc_create_time=#{yc_create_time},</if>
+			<if test="yc_status != null">yc_status=#{yc_status},</if>
+			<if test="yc_review_id != null">yc_review_id=#{yc_review_id},</if>
+			<if test="yc_permission_status != null">yc_permission_status=#{yc_permission_status},</if>
+			<if test="yc_verification_message != null">yc_verification_message=#{yc_verification_message},
+			</if>
+			<if test="yc_remarks != null "> yc_remarks =#{yc_remarks}</if>
+			<if test="yc_reason != null">yc_reason=#{yc_reason},</if>
+			<if test="yc_message_avoidance != null">yc_message_avoidance=#{yc_message_avoidance},</if>
+		</trim>
+		WHERE
+		ID = #{id}
+	</update>
+
+	<!--根据parnetid查询数据-->
+	<select id="findByParentId" resultMap="ycParentClassMap">
+		SELECT
+		ID,
+		YC_PARENT_ID,
+		YC_CLASS_ID,
+		YC_CREATE_TIME,
+		YC_STATUS,
+		YC_REVIEW_ID,
+		YC_PERMISSION_STATUS,
+		YC_VERIFICATION_MESSAGE,
+		YC_REASON,
+		yc_remarks,
+		yc_message_avoidance
+		FROM
+		YC_PARENT_CLASS
+		where
+		YC_PARENT_ID =#{yc_parent_id,jdbcType=VARCHAR}
+	</select>
+	<!--根据id修改群权限（删除教师，权限都修改为4已离职教师）-->
+	<update id="delTeacher">
+		update SCOTT.YC_PARENT_CLASS
+		set yc_permission_status = 4
+		where id=#{id}
+	</update>
+
+</mapper>

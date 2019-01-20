@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.share.mapper.YcChildInformationMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.share.bean.YcChildInformation"
+		id="ycChildInformationMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_school_id" property="yc_school_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_class_id" property="yc_class_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_clas_address" property="yc_clas_address"
+			jdbcType="VARCHAR" />
+		<result column="yc_child_name" property="yc_child_name"
+			jdbcType="VARCHAR" />
+		<result column="yc_child_gender" property="yc_child_gender"
+			jdbcType="INTEGER" />
+		<result column="yc_child_brith" property="yc_child_brith"
+			jdbcType="TIMESTAMP" />
+		<result column="yc_child_avatar" property="yc_child_avatar"
+			jdbcType="VARCHAR" />
+		<result column="yc_founder" property="yc_founder"
+			jdbcType="VARCHAR" />
+		<result column="yc_delete" property="yc_delete"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 添加孩子信息 -->
+	<!-- void insertYcChildInformation(YcChildInformation ycChildInformation) -->
+	<insert id="insertYcChildInformation"
+		parameterType="yc.xuezhifan.schoolbackstage.share.bean.YcChildInformation">
+		insert into YC_CHILD (
+			id,
+			yc_child_name,
+			yc_child_gender,
+			yc_child_avatar,
+			yc_founder,
+			yc_delete
+		)
+		values (
+			#{id,jdbcType=VARCHAR}, 
+			#{yc_child_name,jdbcType=VARCHAR},
+			#{yc_child_gender,jdbcType=DECIMAL},
+			#{yc_child_avatar,jdbcType=VARCHAR},
+			#{yc_founder,jdbcType=VARCHAR},
+			#{yc_delete,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 根据id得到孩子信息 -->
+	<!-- YcChildInformation selectById(String id) -->
+	<select id="selectById" resultMap="ycChildInformationMap">
+		select
+			id,
+			yc_child_name,
+			yc_child_gender,
+			yc_child_avatar,
+			yc_school_id,
+			yc_class_id,
+			yc_clas_address,
+			yc_child_brith,
+			yc_founder,
+			yc_delete
+		from
+		YC_CHILD
+		where
+		id = #{id}
+	</select>
+</mapper>

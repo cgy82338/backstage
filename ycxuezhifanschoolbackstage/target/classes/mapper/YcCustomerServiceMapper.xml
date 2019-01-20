@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.schoolfeature.mapper.YcCustomerServiceMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.schoolfeature.bean.YcCustomerService"
+		id="ycCustomerMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_customer_service_open"
+			property="yc_customer_service_open" jdbcType="INTEGER" />
+		<result column="yc_customer_service_phone"
+			property="yc_customer_service_phone" jdbcType="VARCHAR" />
+		<result column="yc_customer_service_address"
+			property="yc_customer_service_address" jdbcType="VARCHAR" />
+		<result column="yc_customer_service_number"
+			property="yc_customer_service_number" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- void insert(YcCustomerService ycCustomerService) -->
+	<insert id="insert">
+		insert into
+		SCOTT.YC_CUSTOMER_SERVICE(
+		id,
+		yc_customer_service_phone,
+		yc_customer_service_address,
+		yc_customer_service_number
+		)values(
+		#{id,jdbcType=VARCHAR},
+		#{yc_customer_service_phone,jdbcType=VARCHAR},
+		#{yc_customer_service_address,jdbcType=VARCHAR},
+		#{yc_customer_service_number,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- YcCustomerService selectById(String id) -->
+	<select id="selectById" resultMap="ycCustomerMap">
+		select
+		id,
+		yc_customer_service_phone,
+		yc_customer_service_address,
+		yc_customer_service_number
+		from
+		SCOTT.YC_CUSTOMER_SERVICE
+		where
+		id=#{id}
+	</select>
+
+	<!-- void update(YcCustomerService ycCustomerService) -->
+	<update id="update">
+		update
+		SCOTT.YC_CUSTOMER_SERVICE
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_customer_service_phone != null">yc_customer_service_phone=#{yc_customer_service_phone},
+			</if>
+			<if test="yc_customer_service_address != null">yc_customer_service_address=#{yc_customer_service_address},
+			</if>
+			<if test="yc_customer_service_number != null">yc_customer_service_number=#{yc_customer_service_number},
+			</if>
+		</trim>
+		where
+		id=#{id}
+	</update>
+
+</mapper>

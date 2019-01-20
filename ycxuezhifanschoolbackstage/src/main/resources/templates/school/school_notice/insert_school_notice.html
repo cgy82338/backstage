@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>发布通知</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/style/admin.css" media="all">
+</head>
+<body>
+
+<style>
+    .layui-upload-img {
+        width: 200px;
+        height: 200px;
+        margin: 0 10px 10px 0;
+    }
+</style>
+
+<form class="layui-form" action="" lay-filter="component-form-element">
+    <div class="layui-fluid">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" align="center"><h3>编辑通知</h3></div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">内容详情</div>
+                <div class="layui-card-body layui-row layui-col-space10">
+                    <div class="layui-col-md12">
+                        <textarea id="yc_notice_detail" name="yc_notice_detail" lay-verify="required|detail" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">公告图片</div>
+                <div class="layui-card-body layui-row layui-col-space10">
+                    <img class="layui-upload-img" id="test-upload-normal-img">
+                    <input style="display: none" type="text" id="yc_notice_image" name="yc_notice_image">
+                    <button type="button" class="layui-btn" id="test-upload-normal">上传图片</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body" align="center">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="component-form-element">发布</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload', 'form'], function () {
+        var $ = layui.$
+            , upload = layui.upload
+            , form = layui.form;
+
+        /* 自定义验证规则 */
+        form.verify({
+            detail: function(value){
+                if(value.length > 1000){
+                    return '内容详情不得超过1000个字符';
+                }
+            }
+        });
+
+        //头像上传
+        var uploadInst = upload.render({
+            elem: '#test-upload-normal'
+            , url: '/aliyunUpload/uploadImage'
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#test-upload-normal-img').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                // 如果上传成功
+                if (res.code == 200) {
+                    var img = $("#yc_notice_image").val();
+                    if (img == "" || img == null) {
+                        $("#yc_notice_image").val(res.data);
+                    } else {
+                        $("#yc_notice_image").val(res.data + "," + img);
+                    }
+                }else {
+                    return layer.msg('上传失败',{icon:5});
+                }
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#test-upload-demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        //发布
+        form.on('submit(component-form-element)', function (data) {
+            $.ajax({
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/ycNoticeSchool/insertSchool",//url
+                data: data.field,
+                success: function (result) {
+                    if (result.code == 200) {
+                        //登入成功的提示与跳转
+                        layer.msg(result.msg, {
+                            offset: '15px'
+                            , icon: 1
+                            , time: 1000
+                        }, function () {
+                            location.reload();
+                        });
+                    } else {
+                        layer.msg(result.msg, {icon: 5});
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

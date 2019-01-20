@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.ycClass.mapper.YcClassMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.ycClass.bean.YcClass"
+		id="ycClassMap">
+		<id column="yc_class_id" property="yc_class_id" jdbcType="VARCHAR" />
+		<result column="yc_class_number" property="yc_class_number"
+			jdbcType="DECIMAL" />
+		<result column="yc_school_id" property="yc_school_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_class_name" property="yc_class_name"
+			jdbcType="VARCHAR" />
+		<result column="yc_class_create_time"
+			property="yc_class_create_time" jdbcType="TIMESTAMP" />
+		<result column="yc_class_create_id"
+			property="yc_class_create_id" jdbcType="VARCHAR" />
+		<result column="yc_class_head_teacher_id"
+			property="yc_class_head_teacher_id" jdbcType="VARCHAR" />
+		<result column="yc_class_head_teacher_name"
+			property="yc_class_head_teacher_name" jdbcType="VARCHAR" />
+		<result column="yc_class_avatar" property="yc_class_avatar"
+			jdbcType="VARCHAR" />
+		<result column="sa_longitude" property="sa_longitude"
+			jdbcType="INTEGER" />
+		<result column="sa_latitude" property="sa_latitude"
+			jdbcType="INTEGER" />
+		<result column="Yc_address" property="Yc_address"
+			jdbcType="VARCHAR" />
+		<result column="Yc_class_introduction"
+			property="Yc_class_introduction" jdbcType="VARCHAR" />
+		<result column="yc_class_nature" property="yc_class_nature"
+			jdbcType="VARCHAR" />
+		<result column="yc_banned_status" property="yc_banned_status" jdbcType="VARCHAR"/>
+		<collection property="ycIntermediateTables"
+			ofType="yc.xuezhifan.ycxuezhifan.ycClass.bean.YcIntermediateTable"
+			javaType="java.util.ArrayList" column="yc_class_id"
+			select="yc.xuezhifan.schoolbackstage.ycClass.mapper.YcIntermediateTableMapper.getIntermediateTableByClassId"></collection>
+
+	</resultMap>
+
+	<!-- 添加班级 -->
+	<!-- void insetClass(YcClass ycClass) -->
+	<insert id="insetClass"
+		parameterType="yc.xuezhifan.schoolbackstage.ycClass.bean.YcClass">
+		insert into YC_CLASS
+		(
+		YC_CLASS_ID,
+		YC_CLASS_NUMBER,
+		YC_CLASS_NAME,
+		YC_CLASS_CREATE_TIME,
+		YC_CLASS_CREATE_ID,
+		YC_CLASS_HEAD_TEACHER_ID,
+		YC_CLASS_HEAD_TEACHER_NAME,
+		YC_SCHOOL_ID,
+		yc_class_avatar,
+		sa_longitude,
+		sa_latitude,
+		Yc_address,
+		Yc_class_introduction,
+		yc_class_nature,
+		yc_banned_status
+		)
+		values
+		(
+		#{yc_class_id,jdbcType=VARCHAR},
+		#{yc_class_number,jdbcType=DECIMAL},
+		#{yc_class_name,jdbcType=VARCHAR},
+		#{yc_class_create_time,jdbcType=TIMESTAMP},
+		#{yc_class_create_id,jdbcType=VARCHAR},
+		#{yc_class_head_teacher_id,jdbcType=VARCHAR},
+		#{yc_class_head_teacher_name,jdbcType=VARCHAR},
+		#{yc_school_id,jdbcType=VARCHAR},
+		#{yc_class_avatar,jdbcType=VARCHAR},
+		#{sa_longitude,jdbcType=INTEGER},
+		#{sa_latitude,jdbcType=INTEGER},
+		#{Yc_address,jdbcType=VARCHAR},
+		#{Yc_class_introduction,jdbcType=VARCHAR},
+		#{yc_class_nature,jdbcType=VARCHAR},
+		#{yc_banned_status,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+
+	<!-- 根据班级名称查询班级信息 -->
+	<!-- YcClass selectClassByName(String ycClassId, String ycSchoolId); -->
+	<select id="selectClassByName" resultMap="ycClassMap">
+		select
+		YC_CLASS_ID,
+		YC_CLASS_NUMBER,
+		YC_CLASS_NAME,
+		YC_CLASS_CREATE_TIME,
+		YC_CLASS_CREATE_ID,
+		YC_CLASS_HEAD_TEACHER_ID,
+		YC_CLASS_HEAD_TEACHER_NAME,
+		YC_SCHOOL_ID,
+		yc_class_avatar,
+		sa_longitude,
+		sa_latitude,
+		Yc_address,
+		Yc_class_introduction,
+		yc_class_nature,
+		yc_banned_status
+		from SCOTT.YC_CLASS
+		where YC_CLASS_NAME = #{ycClassId,jdbcType=VARCHAR}
+		and YC_SCHOOL_ID = #{ycSchoolId,jdbcType=VARCHAR}
+
+	</select>
+
+	<!-- 删除班级信息 -->
+	<!-- void deleteClass(String yc_class_id); -->
+	<delete id="deleteClass">
+		delete from SCOTT.YC_CLASS
+		where YC_CLASS_ID = #{yc_class_id}
+
+	</delete>
+
+	<!-- 根据班级Id查询班级信息 -->
+	<!-- YcClass selectClassById(String yc_class_id); -->
+	<select id="selectClassById" resultMap="ycClassMap">
+		select
+		YC_CLASS_ID,
+		YC_CLASS_NUMBER,
+		YC_CLASS_NAME,
+		YC_CLASS_CREATE_TIME,
+		YC_CLASS_CREATE_ID,
+		YC_CLASS_HEAD_TEACHER_ID,
+		YC_CLASS_HEAD_TEACHER_NAME,
+		YC_SCHOOL_ID,
+		yc_class_avatar,
+		sa_longitude,
+		sa_latitude,
+		Yc_address,
+		Yc_class_introduction,
+		yc_class_nature,
+		yc_banned_status
+		from SCOTT.YC_CLASS
+		where YC_CLASS_ID = #{yc_class_id,jdbcType=VARCHAR}
+
+	</select>
+
+
+	<!-- 查询班级信息 -->
+	<!-- List<YcClass> getClass(String id); -->
+	<select id="getClass" resultMap="ycClassMap">
+		select
+		YC_CLASS_ID,
+		YC_CLASS_NUMBER,
+		YC_CLASS_NAME,
+		YC_CLASS_CREATE_TIME,
+		YC_CLASS_CREATE_ID,
+		YC_CLASS_HEAD_TEACHER_ID,
+		YC_CLASS_HEAD_TEACHER_NAME,
+		YC_SCHOOL_ID,
+		yc_class_avatar,
+		sa_longitude,
+		sa_latitude,
+		Yc_address,
+		Yc_class_introduction,
+		yc_class_nature,
+		yc_banned_status
+		from SCOTT.YC_CLASS
+		where YC_SCHOOL_ID = #{id,jdbcType=VARCHAR}
+
+	</select>
+
+
+	<!-- 修改班级信息 -->
+	<!-- void updateClass(YcClass ycClass); -->
+	<update id="updateClass"
+		parameterType="yc.xuezhifan.schoolbackstage.ycClass.bean.YcClass">
+		update YC_CLASS
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_class_id != null">
+				YC_CLASS_ID = #{yc_class_id,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_class_number != null">
+				YC_CLASS_NUMBER = #{yc_class_number,jdbcType=DECIMAL},
+			</if>
+			<if test="yc_class_name != null">
+				YC_CLASS_NAME = #{yc_class_name,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_class_create_time != null">
+				YC_CLASS_CREATE_TIME = #{yc_class_create_time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="yc_class_create_id != null">
+				YC_CLASS_CREATE_ID = #{yc_class_create_id,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_class_head_teacher_id != null">
+				YC_CLASS_HEAD_TEACHER_ID =
+				#{yc_class_head_teacher_id,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_class_head_teacher_name != null">
+				YC_CLASS_HEAD_TEACHER_NAME =
+				#{yc_class_head_teacher_name,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_school_id != null">
+				YC_SCHOOL_ID = #{yc_school_id,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_class_avatar != null">
+				yc_class_avatar = #{yc_class_avatar,jdbcType=VARCHAR},
+			</if>
+			<if test="Yc_class_introduction != null">
+				Yc_class_introduction = #{Yc_class_introduction,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_class_nature != null "> yc_class_nature =#{yc_class_nature,jdbcType=VARCHAR},
+			</if>
+			<if test="yc_banned_status != null ">yc_banned_status =#{yc_banned_status},</if>
+		</trim>
+			where YC_CLASS_ID = #{yc_class_id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据班主任Id查询班级信息 -->
+	<select id="findHeadTeahcerById" resultMap="ycClassMap">
+		select
+		YC_CLASS_ID,
+		YC_CLASS_NUMBER,
+		YC_CLASS_NAME,
+		YC_CLASS_CREATE_TIME,
+		YC_CLASS_CREATE_ID,
+		YC_CLASS_HEAD_TEACHER_ID,
+		YC_CLASS_HEAD_TEACHER_NAME,
+		YC_SCHOOL_ID,
+		yc_class_avatar,
+		sa_longitude,
+		sa_latitude,
+		Yc_address,
+		Yc_class_introduction,
+		yc_class_nature,
+		yc_banned_status
+		from SCOTT.YC_CLASS
+		where YC_CLASS_HEAD_TEACHER_ID = #{id,jdbcType=VARCHAR}
+
+	</select>
+
+</mapper>

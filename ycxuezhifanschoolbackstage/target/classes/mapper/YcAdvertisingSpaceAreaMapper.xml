@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.advertising.space.mapper.YcAdvertisingSpaceAreaMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.advertising.space.bean.YcAdvertisingSpaceArea"
+		id="ycAreaMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_advertising_id" property="yc_advertising_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_advertising_district"
+			property="yc_advertising_district" jdbcType="VARCHAR" />
+		<result column="yc_actual_market_price"
+			property="yc_actual_market_price" jdbcType="NUMERIC" />
+		<result column="yc_proportion_commission"
+			property="yc_proportion_commission" jdbcType="INTEGER" />
+		<result column="yc_offer" property="yc_offer"
+			jdbcType="NUMERIC" />
+		<result column="yc_advertising_status"
+			property="yc_advertising_status" jdbcType="INTEGER" />
+		<association property="ycAdvertisingSpace"
+			column="yc_advertising_id"
+			select="yc.xuezhifan.schoolbackstage.advertising.space.mapper.YcAdvertisingSpaceMapper.selectById"></association>
+
+	</resultMap>
+
+	<!-- 修改信息 -->
+	<!-- void update(YcAdvertisingSpaceArea ycAdvertisingSpaceArea) -->
+	<update id="update">
+		update
+		SCOTT.YC_ADVERTISING_SPACE_AREA
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_advertising_status != null">yc_advertising_status=#{yc_advertising_status},</if>
+		</trim>
+		where
+		id=#{id}
+	</update>
+
+	<!-- 根据地区获取广告位信息 -->
+	<select id="selectByArea" resultMap="ycAreaMap">
+		select
+		id,
+		yc_advertising_id,
+		yc_advertising_district,
+		yc_actual_market_price,
+		yc_offer,
+		yc_advertising_status
+		from
+		SCOTT.YC_ADVERTISING_SPACE_AREA
+		<where>
+			<if test="1 == 1">
+				and yc_advertising_district=#{yc_advertising_district}
+			</if>
+			<if test="type != null">
+				and yc_advertising_id
+				in(
+				select
+				id
+				from
+				YC_ADVERTISING_SPACE
+				where
+				yc_advertising_type=#{type})
+			</if>
+		</where>
+	</select>
+
+	<select id="selectById" resultMap="ycAreaMap">
+		select
+		id,
+		yc_advertising_id,
+		yc_advertising_district,
+		yc_actual_market_price,
+		yc_offer,
+		yc_advertising_status
+		from
+		SCOTT.YC_ADVERTISING_SPACE_AREA
+		where
+		id=#{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+        namespace="yc.xuezhifan.schoolbackstage.user.mapper.YcUserMapper">
+    <resultMap
+            type="yc.xuezhifan.schoolbackstage.user.bean.YcUser" id="userMap">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="yc_id" property="yc_id" jdbcType="INTEGER"/>
+        <result column="yc_username" property="yc_username"
+                jdbcType="VARCHAR"/>
+        <result column="yc_nickname" property="yc_nickname"
+                jdbcType="VARCHAR"/>
+        <result column="yc_gender" property="yc_gender"
+                jdbcType="INTEGER"/>
+        <result column="yc_province" property="yc_province"
+                jdbcType="VARCHAR"/>
+        <result column="yc_city" property="yc_city" jdbcType="VARCHAR"/>
+        <result column="yc_district" property="yc_district"
+                jdbcType="VARCHAR"/>
+        <result column="yc_district_name" property="yc_district_name"
+                jdbcType="VARCHAR"/>
+
+        <result column="yc_map_address" property="yc_map_address"
+                jdbcType="VARCHAR"/>
+        <result column="yc_password" property="yc_password"
+                jdbcType="VARCHAR"/>
+        <result column="yc_password_encryption"
+                property="yc_password_encryption" jdbcType="VARCHAR"/>
+        <result column="yc_phone" property="yc_phone"
+                jdbcType="VARCHAR"/>
+        <result column="yc_role" property="yc_role" jdbcType="INTEGER"/>
+        <result column="yc_avatar" property="yc_avatar"
+                jdbcType="VARCHAR"/>
+        <result column="yc_introduction" property="yc_introduction"
+                jdbcType="VARCHAR"/>
+        <result column="yc_carte" property="yc_carte"
+                jdbcType="VARCHAR"/>
+        <result column="yc_status" property="yc_status"
+                jdbcType="INTEGER"/>
+        <result column="yc_login_time" property="yc_login_time"
+                jdbcType="TIMESTAMP"/>
+        <result column="yc_founder" property="yc_founder"
+                jdbcType="VARCHAR"/>
+        <result column="yc_delete" property="yc_delete"
+                jdbcType="INTEGER"/>
+        <result column="yc_wechat_appid" property="yc_wechat_appid"
+                jdbcType="VARCHAR"/>
+        <result column="yc_qq_unionid" property="yc_qq_unionid"
+                jdbcType="VARCHAR"/>
+        <result column="yc_alipay_appid" property="yc_alipay_appid"
+                jdbcType="VARCHAR"/>
+        <result column="yc_token" property="yc_token"
+                jdbcType="VARCHAR"/>
+        <result column="yc_rongcloudtoken" property="yc_rongcloudtoken"
+                jdbcType="VARCHAR"/>
+        <result column="yc_idcard" property="yc_idcard"
+                jdbcType="VARCHAR"/>
+        <result column="yc_video_name" property="yc_video_name"
+                jdbcType="VARCHAR"/>
+        <result column="yc_allow_class" property="yc_allow_class"
+                jdbcType="INTEGER"/>
+        <result column="yc_allow_qrcode" property="yc_allow_qrcode"
+                jdbcType="INTEGER"/>
+        <result column="yc_allow_address" property="yc_allow_address"
+                jdbcType="INTEGER"/>
+        <result column="yc_user_token" property="yc_user_token"
+                jdbcType="VARCHAR"></result>
+    </resultMap>
+
+
+    <select id="selectById" resultMap="userMap">
+		SELECT
+		ID,
+		YC_USERNAME,
+		YC_NICKNAME,
+		YC_GENDER,
+		YC_PROVINCE,
+		yc_district_name,
+		YC_CITY,
+		YC_DISTRICT,
+		YC_MAP_ADDRESS,
+		YC_PHONE,
+		YC_ROLE,
+		YC_AVATAR,
+		YC_INTRODUCTION,
+		YC_CARTE,
+		YC_STATUS,
+		YC_LOGIN_TIME,
+		YC_FOUNDER,
+		YC_WECHAT_APPID,
+		YC_TOKEN,
+		YC_IDCARD,
+		YC_RONGCLOUDTOKEN,
+		YC_ALLOW_CLASS,
+		YC_ALLOW_QRCODE,
+		YC_ALLOW_ADDRESS,
+		YC_ID
+		FROM
+		YC_USER
+		WHERE ID=#{id}
+
+	</select>
+
+
+    <!-- List<YcUser> selectByfounder(String id); -->
+    <select id="selectByfounder" resultMap="userMap">
+		SELECT
+		ID,
+		YC_USERNAME,
+		YC_NICKNAME,
+		YC_GENDER,
+		YC_PROVINCE,
+		YC_CITY,
+		YC_DISTRICT,
+		YC_DISTRICT_NAME,
+		YC_MAP_ADDRESS,
+		YC_PASSWORD,
+		YC_PASSWORD_ENCRYPTION,
+		YC_PHONE,
+		YC_ROLE,
+		YC_AVATAR,
+		YC_INTRODUCTION,
+		YC_CARTE,
+		YC_STATUS,
+		YC_LOGIN_TIME,
+		YC_FOUNDER,
+		YC_DELETE,
+		YC_WECHAT_APPID,
+		YC_QQ_UNIONID,
+		YC_ALIPAY_APPID,
+		YC_TOKEN,
+		YC_IDCARD,
+		YC_VIDEO_NAME,
+		YC_RONGCLOUDTOKEN,
+		YC_ALLOW_CLASS,
+		YC_ALLOW_QRCODE,
+		YC_ALLOW_ADDRESS,
+		YC_ID,
+		YC_USER_TOKEN
+		FROM
+		YC_USER
+		WHERE YC_FOUNDER=#{id}
+		and YC_DELETE = 1
+
+	</select>
+
+
+    <!-- 查询电话号码是否存在 -->
+    <!-- Integer selectByPhone(String phone) -->
+    <select id="selectByPhone" resultMap="userMap">
+		select * from
+		yc_user
+		where yc_phone=#{phone}
+		
+	</select>
+
+
+    <!-- 添加用户 -->
+    <!-- void insertUser(YcUser ycUser) -->
+    <insert id="insertUser"
+            parameterType="yc.xuezhifan.schoolbackstage.user.bean.YcUser">
+        <selectKey keyProperty="yc_id" order="BEFORE"
+                   resultType="Integer">
+            select seq_user.nextval from dual
+        </selectKey>
+        insert INTO yc_user (
+        ID,
+        YC_USERNAME,
+        YC_NICKNAME,
+        YC_GENDER,
+        YC_PROVINCE,
+        YC_DISTRICT_NAME,
+        YC_CITY,
+        YC_DISTRICT,
+        YC_MAP_ADDRESS,
+        YC_PASSWORD,
+        YC_PASSWORD_ENCRYPTION,
+        YC_PHONE,
+        YC_ROLE,
+        YC_AVATAR,
+        YC_INTRODUCTION,
+        YC_CARTE,
+        YC_STATUS,
+        YC_LOGIN_TIME,
+        YC_FOUNDER,
+        YC_DELETE,
+        YC_WECHAT_APPID,
+        YC_QQ_UNIONID,
+        YC_ALIPAY_APPID,
+        YC_TOKEN,
+        YC_IDCARD,
+        YC_VIDEO_NAME,
+        YC_RONGCLOUDTOKEN,
+        YC_ALLOW_CLASS,
+        YC_ALLOW_QRCODE,
+        YC_ALLOW_ADDRESS,
+        YC_ID,
+        yc_user_token
+        ) values(
+        #{id},
+        #{yc_username,jdbcType=VARCHAR},
+        #{yc_nickname,jdbcType=VARCHAR},
+        #{yc_gender,jdbcType=INTEGER},
+        #{yc_province,jdbcType=VARCHAR},
+        #{yc_district_name,jdbcType=VARCHAR},
+        #{yc_city,jdbcType=VARCHAR},
+        #{yc_district,jdbcType=VARCHAR},
+        #{yc_map_address,jdbcType=VARCHAR},
+        #{yc_password,jdbcType=VARCHAR},
+        #{yc_password_encryption,jdbcType=VARCHAR},
+        #{yc_phone,jdbcType=VARCHAR},
+        #{yc_role,jdbcType=INTEGER},
+        #{yc_avatar,jdbcType=VARCHAR},
+        #{yc_introduction,jdbcType=VARCHAR},
+        #{yc_carte,jdbcType=VARCHAR},
+        #{yc_status,jdbcType=INTEGER},
+        #{yc_login_time,jdbcType=TIMESTAMP},
+        #{yc_founder,jdbcType=VARCHAR},
+        #{yc_delete,jdbcType=INTEGER},
+        #{yc_wechat_appid,jdbcType=VARCHAR},
+        #{yc_qq_unionid,jdbcType=VARCHAR},
+        #{yc_alipay_appid,jdbcType=VARCHAR},
+        #{yc_token,jdbcType=VARCHAR},
+        #{yc_idcard,jdbcType=VARCHAR},
+        #{yc_video_name,jdbcType=VARCHAR},
+        #{yc_rongcloudtoken,jdbcType=VARCHAR},
+        #{yc_allow_class,jdbcType=INTEGER},
+        #{yc_allow_qrcode,jdbcType=INTEGER},
+        #{yc_allow_address,jdbcType=INTEGER},
+        #{yc_id,jdbcType=INTEGER},
+        #{yc_user_token,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!-- 根据id查询用户 -->
+    <!-- YcUser getUserById(String id) -->
+    <select id="getUserById" resultMap="userMap">
+		SELECT
+		ID,
+		YC_USERNAME,
+		YC_NICKNAME,
+		YC_GENDER,
+		YC_PROVINCE,
+		YC_CITY,
+		YC_DISTRICT,
+		YC_DISTRICT_NAME,
+		YC_MAP_ADDRESS,
+		YC_PASSWORD,
+		YC_PASSWORD_ENCRYPTION,
+		YC_PHONE,
+		YC_ROLE,
+		YC_AVATAR,
+		YC_INTRODUCTION,
+		YC_CARTE,
+		YC_STATUS,
+		YC_LOGIN_TIME,
+		YC_FOUNDER,
+		YC_DELETE,
+		YC_WECHAT_APPID,
+		YC_QQ_UNIONID,
+		YC_ALIPAY_APPID,
+		YC_TOKEN,
+		YC_IDCARD,
+		YC_VIDEO_NAME,
+		YC_RONGCLOUDTOKEN,
+		YC_ALLOW_CLASS,
+		YC_ALLOW_QRCODE,
+		YC_ALLOW_ADDRESS,
+		YC_ID,
+		YC_USER_TOKEN
+		FROM
+		YC_USER
+		WHERE ID=#{id}
+
+	</select>
+
+    <!-- 修改教师信息 -->
+    <!-- int updateTeacherById(YcUser ycUser); -->
+    <update id="updateTeacherById"
+            parameterType="yc.xuezhifan.schoolbackstage.user.bean.YcUser">
+        UPDATE
+        SCOTT.YC_USER
+        <trim prefix="set" suffixOverrides=",">
+            <if test="id != null">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_username != null">
+                YC_USERNAME = #{yc_username,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_nickname != null">
+                YC_NICKNAME = #{yc_nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_gender != null">
+                YC_GENDER = #{yc_gender,jdbcType=INTEGER},
+            </if>
+            <if test="yc_province != null">
+                YC_PROVINCE = #{yc_province,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_city != null">
+                YC_CITY = #{yc_city,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_district != null">
+                YC_DISTRICT = #{yc_district,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_map_address != null">
+                YC_MAP_ADDRESS = #{yc_map_address,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_password != null">
+                YC_PASSWORD = #{yc_password,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_password_encryption != null">
+                YC_PASSWORD_ENCRYPTION = #{yc_password_encryption,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_phone != null">
+                YC_PHONE = #{yc_phone,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_role != null">
+                YC_ROLE = #{yc_role,jdbcType=INTEGER},
+            </if>
+            <if test="yc_avatar != null">
+                YC_AVATAR = #{yc_avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_introduction != null">
+                YC_INTRODUCTION = #{yc_introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_carte != null">
+                YC_CARTE = #{yc_carte,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_status != null">
+                YC_STATUS = #{yc_status,jdbcType=INTEGER},
+            </if>
+            <if test="yc_login_time != null">
+                YC_LOGIN_TIME = #{yc_login_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="yc_founder != null">
+                YC_FOUNDER = #{yc_founder,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_delete != null">
+                YC_DELETE = #{yc_delete,jdbcType=INTEGER},
+            </if>
+            <if test="yc_wechat_appid != null">
+                YC_WECHAT_APPID = #{yc_wechat_appid,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_qq_unionid != null">
+                YC_QQ_UNIONID = #{yc_qq_unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_alipay_appid != null">
+                YC_ALIPAY_APPID = #{yc_alipay_appid,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_token != null">
+                YC_TOKEN = #{yc_token,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_rongcloudtoken != null">
+                yc_rongcloudtoken = #{yc_rongcloudtoken,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_rongcloudtoken != null">
+                yc_idcard = #{yc_idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="yc_allow_class != null">yc_allow_class=#{yc_allow_class},</if>
+            <if test="yc_allow_qrcode != null">yc_allow_qrcode=#{yc_allow_qrcode},</if>
+            <if test="yc_allow_address != null">yc_allow_address=#{yc_allow_address},</if>
+            <if test="yc_user_token != null">yc_user_token=#{yc_user_token},</if>
+        </trim>
+        WHERE
+        ID = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 删除教师信息（仅将删除状态修改为不展示） -->
+    <!-- String deleteTeacherById(String id); -->
+    <update id="deleteTeacherById">
+		UPDATE
+		SCOTT.YC_USER
+		SET
+		yc_delete= 2
+		WHERE
+		ID = #{id}
+	</update>
+
+    <update id="updatePW">
+        update
+        SCOTT.YC_USER
+        <trim prefix="set" suffixOverrides=",">
+            <if test="yc_password != null">yc_password=#{yc_password},</if>
+            <if test="yc_password_encryption != null">yc_password_encryption=#{yc_password_encryption}</if>
+        </trim>
+        where
+        id=#{id}
+    </update>
+
+    <select id="selectPhone" resultMap="userMap">
+		select ID,
+		YC_ID,
+		YC_USERNAME,
+		YC_NICKNAME,
+		yc_token,
+		yc_rongcloudtoken,
+		yc_allow_class,
+		yc_allow_qrcode,
+		yc_allow_address,
+		yc_user_token
+		from
+		YC_USER
+		where
+		yc_phone=#{yc_school_principal_phone}
+	</select>
+
+    <!--查询全部用户token-->
+    <select id="selectTokenAll" resultType="string">
+        select
+        yc_token
+        from
+        YC_USER
+    </select>
+
+    <delete id="deleteAll">
+		delete from YC_USER where id=#{id}
+	</delete>
+
+    <!--<update id="deleteAll">-->
+    <!--update YC_USER set-->
+    <!--yc_delete=1-->
+    <!--where id=#{id}-->
+    <!--</update>-->
+</mapper>

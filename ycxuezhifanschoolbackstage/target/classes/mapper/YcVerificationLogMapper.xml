@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.smsmoible.mapper.YcVerificationLogMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.smsmoible.bean.YcVerificationLog" id="YcVerificationLogMap"> 
+		 <id column="id" property="id" jdbcType="VARCHAR" /> 
+		 <result column="yc_code_id" property="yc_code_id" jdbcType="VARCHAR" /> 
+		 <result column="Yc_code" property="Yc_code" jdbcType="VARCHAR" /> 
+		 <result column="Yc_use_count" property="Yc_use_count" jdbcType="INTEGER" /> 
+	 </resultMap> 
+	<!-- 添加值日表 -->
+	<!-- Integer insert(List<YcVerification> YcVerifications) -->
+	<insert id="saveYcVerificationLog" 
+		parameterType="yc.xuezhifan.schoolbackstage.smsmoible.bean.YcVerificationLog">
+		INSERT
+		INTO
+		    SCOTT.YC_VERIFICATION_LOG
+		    (
+		        ID,
+		        YC_CODE_ID,
+		        YC_CODE,
+		        YC_USE_COUNT
+		    )
+		    VALUES
+		    (
+		        #{id},
+		        #{yc_code_id},
+		        #{yc_code},
+		        #{yc_use_count}
+		    )
+
+	     
+	</insert> 
+	<select id="getYcVerificationLog" resultMap="YcVerificationLogMap">
+		SELECT
+		    ID,
+		    YC_CODE_ID,
+		    YC_CODE,
+		    YC_USE_COUNT
+		FROM
+		    YC_VERIFICATION_LOG
+		where 
+			yc_code_id=#{yc_code_id}
+		and 
+			YC_CODE=#{yc_code}
+	
+	</select>
+	
+	<update id="modifyYcVerificationLog" parameterType="yc.xuezhifan.schoolbackstage.smsmoible.bean.YcVerificationLog">
+		UPDATE
+    		YC_VERIFICATION_LOG
+		SET
+		    YC_USE_COUNT = #{yc_use_count}
+		WHERE 
+			ID = #{id}
+	</update>
+	<delete id="delete">
+	delete from YC_VERIFICATION_LOG where yc_code_id=#{id}
+	</delete>
+	
+	
+	
+</mapper>

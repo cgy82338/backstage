@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.smsmoible.mapper.YcVerificationMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.smsmoible.bean.YcVerificationCode" id="YcVerificationMap"> 
+		 <id column="id" property="id" jdbcType="VARCHAR" /> 
+		 <result column="yc_mobile" property="yc_mobile" jdbcType="INTEGER" /> 
+		 <result column="yc_code_use" property="yc_code_use" jdbcType="VARCHAR" /> 
+		 <result column="yc_create_time" property="yc_create_time" jdbcType="TIMESTAMP" /> 
+	 </resultMap> 
+	
+	<!-- 添加值日表 -->
+	<!-- Integer insert(List<YcVerification> YcVerifications) -->
+	<insert id="saveVerification" 
+		parameterType="yc.xuezhifan.schoolbackstage.smsmoible.bean.YcVerificationCode">
+		INSERT
+		INTO
+		    SCOTT.YC_VERIFICATION_CODE
+		    (
+		        ID,
+		        YC_MOBILE,
+		        YC_CODE_USE,
+		        YC_CREATE_TIME,
+		        YC_CODE
+		    )
+		    VALUES
+		    (
+		        #{id},
+		        #{yc_mobile},
+		        #{yc_code_use},
+		        #{yc_create_time},
+		        #{yc_code}
+		    )
+	     
+	</insert> 
+	<select id="getVerification" resultMap="YcVerificationMap">
+		SELECT
+		    ID,
+		    YC_MOBILE,
+		    YC_CODE_USE,
+		    YC_CREATE_TIME,
+		    YC_CODE
+		FROM
+		   YC_VERIFICATION_CODE
+		where 
+			YC_MOBILE=#{yc_mobile}
+		and 
+			YC_CODE_USE=#{yc_code_use}
+			<if test="yc_code !=null ">
+			and 
+			YC_CODE=#{yc_code}
+			</if>
+	</select>
+	
+	<update id="modify" parameterType="yc.xuezhifan.schoolbackstage.smsmoible.bean.YcVerificationCode">
+	UPDATE
+    YC_VERIFICATION_CODE
+	SET
+	    
+	    YC_MOBILE = #{yc_mobile},
+	    YC_CODE_USE = #{yc_code_use},
+	    YC_CREATE_TIME = #{yc_create_time},
+	    YC_CODE = #{yc_code}
+	WHERE 
+		ID =#{id}
+	</update>
+	
+	<delete id="delete">
+		delete from YC_VERIFICATION_CODE where yc_mobile=#{id}
+	</delete>
+	
+	
+	
+</mapper>

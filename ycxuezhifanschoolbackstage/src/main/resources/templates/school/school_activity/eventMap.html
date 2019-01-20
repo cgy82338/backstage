@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+<!-- 原始地址：//webapi.amap.com/ui/1.0/ui/misc/PositionPicker/examples/positionPicker.html -->
+<!-- <base href="//webapi.amap.com/ui/1.0/ui/misc/PositionPicker/examples/" /> -->
+<meta name="renderer" content="webkit">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="initial-scale=1.0, user-scalable=no, width=device-width">
+<title>拖拽选址</title>
+<style>
+html, body {
+	height: 100%;
+	margin: 0;
+	width: 100%;
+	padding: 0;
+	overflow: hidden;
+	font-size: 13px;
+}
+
+.map {
+	height: 100%;
+	width: 60%;
+	float: left;
+}
+
+#right {
+	color: #444;
+	background-color: #f8f8f8;
+	width: 40%;
+	float: left;
+	height: 100%;
+}
+
+#start, #stop, #right input {
+	margin: 4px;
+	margin-left: 15px;
+}
+
+.title {
+	width: 100%;
+	background-color: #dadada
+}
+
+button {
+	border: solid 1px;
+	margin-left: 15px;
+	background-color: #dadafa;
+}
+
+.c {
+	font-weight: 600;
+	padding-left: 15px;
+	padding-top: 4px;
+}
+
+#lnglat, #address, #nearestJunction, #nearestRoad, #nearestPOI, .title {
+	padding-left: 15px;
+}
+</style>
+</head>
+
+<body>
+	<div id="container" class="map" tabindex="0"></div>
+	<div id='right'>
+		<div>
+			<div class='title'>选址结果</div>
+			<div class='c'>经纬度:</div>
+			<div id='lnglat'></div>
+			<div class='c'>地址:</div>
+			<div id='address'></div>
+			<div class='c'>最近的路口:</div>
+			<div id='nearestJunction'></div>
+			<div class='c'>最近的路:</div>
+			<div id='nearestRoad'></div>
+		</div>
+	</div>
+	<script src="/jquery/jquery.js"></script>
+	<script type="text/javascript"
+		src='//webapi.amap.com/maps?v=1.4.11&key=afcf4fa8dcf1b21cfe79d2becde2338e&plugin=AMap.ToolBar'></script>
+	<!-- UI组件库 1.0 -->
+	<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+	
+	<script type="text/javascript">
+		AMapUI
+				.loadUI(
+						[ 'misc/PositionPicker' ],
+						function(PositionPicker) {
+							var map = new AMap.Map('container', {
+								zoom : 16,
+								scrollWheel : false
+							});
+							var positionPicker = new PositionPicker({
+								mode : 'dragMap',
+								map : map
+							});
+
+							positionPicker
+									.on(
+											'success',
+											function(positionResult) {
+												document
+														.getElementById('lnglat').innerHTML = positionResult.position.lat+","+positionResult.position.lng;
+												document
+														.getElementById('address').innerHTML = positionResult.address;
+												document
+														.getElementById('nearestJunction').innerHTML = positionResult.nearestJunction;
+												document
+														.getElementById('nearestRoad').innerHTML = positionResult.nearestRoad;
+											});
+							positionPicker
+									.on(
+											'fail',
+											function(positionResult) {
+												document
+														.getElementById('lnglat').innerHTML = ' ';
+												document
+														.getElementById('address').innerHTML = ' ';
+												document
+														.getElementById('nearestJunction').innerHTML = ' ';
+												document
+														.getElementById('nearestRoad').innerHTML = ' ';
+											});
+							var onModeChange = function(e) {
+
+								positionPicker.setMode(e.target.value);
+							}
+							positionPicker
+									.start(map.getBounds().getSouthWest());
+							positionPicker.start();
+							map.panBy(0, 1);
+
+							map.addControl(new AMap.ToolBar({
+								liteStyle : true
+							}))
+						});
+		
+	//设置layer.open的回调函数的返回值
+        var callbackdata = function () {
+            var data = {
+            		lnglat: $("#lnglat").text(),
+				address:$("#address").text()
+            };
+            return data;
+        }
+	</script>
+</body>
+
+</html>

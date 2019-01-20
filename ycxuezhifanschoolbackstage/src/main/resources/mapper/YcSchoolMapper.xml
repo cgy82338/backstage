@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+        namespace="yc.xuezhifan.schoolbackstage.school.mapper.YcSchoolMapper">
+    <resultMap
+            type="yc.xuezhifan.schoolbackstage.school.bean.YcSchool" id="ycSchoolMap">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="yc_school_id" property="yc_school_id"
+                jdbcType="VARCHAR"/>
+        <result column="yc_school_name" property="yc_school_name"
+                jdbcType="VARCHAR"/>
+        <result column="yc_school_type" property="yc_school_type"
+                jdbcType="INTEGER"/>
+        <result column="yc_school_province"
+                property="yc_school_province" jdbcType="VARCHAR"/>
+        <result column="yc_school_city" property="yc_school_city"
+                jdbcType="VARCHAR"/>
+        <result column="yc_school_district"
+                property="yc_school_district" jdbcType="VARCHAR"/>
+        <result column="yc_school_address" property="yc_school_address"
+                jdbcType="VARCHAR"/>
+        <result column="yc_school_map_address"
+                property="yc_school_map_address" jdbcType="VARCHAR"/>
+        <result column="yc_school_password"
+                property="yc_school_password" jdbcType="VARCHAR"/>
+        <result column="yc_school_pw_encryption"
+                property="yc_school_pw_encryption" jdbcType="VARCHAR"/>
+        <result column="yc_school_corporation_phone"
+                property="yc_school_corporation_phone" jdbcType="VARCHAR"/>
+        <result column="yc_school_avatar" property="yc_school_avatar"
+                jdbcType="VARCHAR"/>
+        <result column="yc_school_status" property="yc_school_status"
+                jdbcType="INTEGER"/>
+        <result column="yc_school_login_time"
+                property="yc_school_login_time" jdbcType="TIMESTAMP"/>
+        <result column="yc_school_founder" property="yc_school_founder"
+                jdbcType="VARCHAR"/>
+        <result column="yc_school_teaching_stage"
+                property="yc_school_teaching_stage" jdbcType="INTEGER"/>
+        <result column="yc_school_principal"
+                property="yc_school_principal" jdbcType="VARCHAR"/>
+        <result column="yc_school_principal_phone"
+                property="yc_school_principal_phone" jdbcType="VARCHAR"/>
+        <result column="yc_school_corporation"
+                property="yc_school_corporation" jdbcType="VARCHAR"/>
+        <result column="yc_school_business_license"
+                property="yc_school_business_license" jdbcType="VARCHAR"/>
+        <result column="yc_school_corporate_photo"
+                property="yc_school_corporate_photo" jdbcType="VARCHAR"/>
+        <result column="yc_school_contract_code"
+                property="yc_school_contract_code" jdbcType="VARCHAR"/>
+        <result column="yc_school_contract_start"
+                property="yc_school_contract_start" jdbcType="TIMESTAMP"/>
+        <result column="yc_school_contract_end"
+                property="yc_school_contract_end" jdbcType="TIMESTAMP"/>
+        <result column="yc_is_public" property="yc_is_public"
+                jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 登录账户查询 -->
+    <!-- public YcSchool selectByUserName(String username); -->
+    <select id="selectByUserName" resultMap="ycSchoolMap">
+		select
+		id,
+        yc_school_id,
+        yc_school_name,
+        yc_province,
+        yc_city,
+        yc_district,
+        yc_school_address,
+        yc_school_map_address,
+        yc_school_password,
+        yc_school_pw_encryption,
+        yc_school_corporation_phone,
+        yc_school_avatar,
+        yc_school_status,
+        yc_school_login_time,
+        yc_school_founder,
+        yc_school_teaching_stage,
+        yc_school_principal,
+        yc_school_principal_phone,
+        yc_school_corporation,
+        yc_school_business_license,
+        yc_school_corporate_photo,
+        yc_school_contract_code,
+        yc_school_contract_start,
+        yc_school_contract_end,
+        yc_is_public,
+        yc_school_end_photo,
+        yc_contract
+		from
+		SCOTT.YC_SCHOOL
+		where
+		yc_school_id=#{username}
+		or
+        yc_school_principal_phone=#{username}
+	</select>
+
+    <select id="selectById" resultMap="ycSchoolMap">
+        select
+        id,
+        yc_school_id,
+        yc_school_name,
+        yc_province,
+        yc_city,
+        yc_district,
+        yc_school_address,
+        yc_school_map_address,
+        yc_school_password,
+        yc_school_pw_encryption,
+        yc_school_corporation_phone,
+        yc_school_avatar,
+        yc_school_status,
+        yc_school_login_time,
+        yc_school_founder,
+        yc_school_teaching_stage,
+        yc_school_principal,
+        yc_school_principal_phone,
+        yc_school_corporation,
+        yc_school_business_license,
+        yc_school_corporate_photo,
+        yc_school_contract_code,
+        yc_school_contract_start,
+        yc_school_contract_end,
+        yc_is_public,
+        yc_school_end_photo,
+        yc_contract
+        from
+        SCOTT.YC_SCHOOL
+        where
+        id=#{id}
+
+    </select>
+
+    <update id="updateSchool">
+        update
+        SCOTT.YC_SCHOOL
+        <trim prefix="set" suffixOverrides=",">
+            <if test="yc_school_password != null">yc_school_password=#{yc_school_password},</if>
+            <if test="yc_school_pw_encryption != null">yc_school_pw_encryption=#{yc_school_pw_encryption},</if>
+            <if test="yc_school_name != null">yc_school_name=#{yc_school_name},</if>
+            <if test="yc_school_avatar != null">yc_school_avatar=#{yc_school_avatar},</if>
+            <if test="yc_province != null">yc_province=#{yc_province},</if>
+            <if test="yc_city != null">yc_city=#{yc_city},</if>
+            <if test="yc_district != null">yc_district=#{yc_district},</if>
+            <if test="yc_school_principal_phone != null">yc_school_principal_phone=#{yc_school_principal_phone},</if>
+        </trim>
+        where
+        id=#{id}
+    </update>
+
+
+    <!--根据学校名称查询信息-->
+    <!--YcSchool selectSchoolByName(String schoolname)-->
+    <select id="selectSchoolByName" resultMap="ycSchoolMap">
+		select
+		 id,
+        yc_school_id,
+        yc_school_name,
+        yc_province,
+        yc_city,
+        yc_district,
+        yc_school_address,
+        yc_school_map_address,
+        yc_school_password,
+        yc_school_pw_encryption,
+        yc_school_corporation_phone,
+        yc_school_avatar,
+        yc_school_status,
+        yc_school_login_time,
+        yc_school_founder,
+        yc_school_teaching_stage,
+        yc_school_principal,
+        yc_school_principal_phone,
+        yc_school_corporation,
+        yc_school_business_license,
+        yc_school_corporate_photo,
+        yc_school_contract_code,
+        yc_school_contract_start,
+        yc_school_contract_end,
+        yc_is_public,
+        yc_school_end_photo,
+        yc_contract
+		from
+		SCOTT.YC_SCHOOL
+		where
+		yc_school_name = #{schoolname}
+	</select>
+
+</mapper>

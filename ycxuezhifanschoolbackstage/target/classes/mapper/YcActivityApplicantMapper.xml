@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="yc.xuezhifan.schoolbackstage.active.mapper.YcActivityApplicantMapper">
+	<resultMap
+		type="yc.xuezhifan.schoolbackstage.active.bean.YcActivityApplicant"
+		id="ycAAMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="yc_activity_id" property="yc_activity_id"
+			jdbcType="VARCHAR" />
+		<result column="yc_activity_applicant_id"
+			property="yc_activity_applicant_id" jdbcType="VARCHAR" />
+		<result column="yc_activity_people_number"
+			property="yc_activity_people_number" jdbcType="INTEGER" />
+		<result column="yc_activity_people_phone"
+			property="yc_activity_people_phone" jdbcType="VARCHAR" />
+		<result column="yc_activity_costs"
+				property="yc_activity_costs" jdbcType="NUMERIC" />
+		<result column="yc_create_time"
+				property="yc_create_time" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+
+	<!-- 根据活动id得到报名人信息 -->
+	<select id="selectById" resultMap="ycAAMap"
+		parameterType="String">
+		select
+		id,
+		yc_activity_id,
+		yc_activity_applicant_id,
+		yc_activity_people_number,
+		yc_activity_people_phone,
+		yc_activity_costs,
+		yc_create_time
+		from
+		yc_activity_applicant
+		where
+		id=#{id}
+	</select>
+
+	<!-- 根据活动id得到报名人信息 -->
+	<!-- List<YcActivityApplicant> selectByActivityId(String yc_activity_id) -->
+	<select id="selectByActivityId" resultMap="ycAAMap">
+		select
+		id,
+		yc_activity_id,
+		yc_activity_applicant_id,
+		yc_activity_people_number,
+		yc_activity_people_phone,
+		yc_activity_costs,
+		yc_create_time
+		from
+		yc_activity_applicant
+		where
+		yc_activity_id=#{yc_activity_id}
+
+	</select>
+
+	<!-- 修改活动报名人 -->
+	<update id="modify">
+		update
+		yc_activity_applicant
+		<trim prefix="set" suffixOverrides=",">
+			<if test="yc_activity_id != null">yc_activity_id=#{yc_activity_id},</if>
+			<if test="yc_activity_applicant_id != null">yc_activity_applicant_id=#{yc_activity_applicant_id},
+			</if>
+			<if test="yc_activity_people_number != null">yc_activity_people_number=#{yc_activity_people_number},
+			</if>
+			<if test="yc_activity_people_phone != null">yc_activity_people_phone=#{yc_activity_people_phone},
+			</if>
+		</trim>
+		where
+		id = #{id}
+	</update>
+
+	<!-- 删除活动报名人 -->
+	<!-- integer deleteActivityApplicant(String id); -->
+	<delete id="deleteActivityApplicant">
+		delete
+		from
+		yc_activity_applicant
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByActiveId">
+		delete
+		from
+		yc_activity_applicant
+		where
+		yc_activity_id = #{yc_activity_id}
+	</delete>
+</mapper>

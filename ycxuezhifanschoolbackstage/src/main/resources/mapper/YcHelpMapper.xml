@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yc.xuezhifan.schoolbackstage.help.mapper.YcHelpMapper">
+	 <resultMap type="yc.xuezhifan.schoolbackstage.help.bean.YcHelp" id="ycHelpMap">
+		 <id column="id" property="id" jdbcType="VARCHAR" /> 
+		 <result column="yc_help_title" property="yc_help_title" jdbcType="VARCHAR" /> 
+		 <result column="yc_help_time" property="yc_help_time" jdbcType="TIMESTAMP" /> 
+		 <result column="yc_help_details" property="yc_help_details" jdbcType="VARCHAR" /> 
+	 </resultMap> 
+
+	<!-- 查询所有帮助 -->
+	<!-- List<YcHelp> findAll() -->
+	<select id="findAll" resultMap="ycHelpMap">
+	select 
+		id,
+		yc_help_title,
+		yc_help_time,
+		yc_help_details
+	from
+		YC_HELP
+	</select>
+
+	<!-- 根据名称查询使用帮助内容 -->
+	<!-- YcHelp selectHelpByName(String name) -->
+	<select id="selectHelpByName" resultMap="ycHelpMap">
+	select
+		id,
+		yc_help_title,
+		yc_help_time,
+		yc_help_details
+	from
+		YC_HELP
+		where yc_help_title = #{name}
+	</select>
+	
+</mapper>
